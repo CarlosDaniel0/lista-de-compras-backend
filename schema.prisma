@@ -1,0 +1,100 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Supermarket {
+  id       String               @id @default(uuid())
+  name     String
+  address  String
+  coords   Float[]
+  reciepts Reciept[]
+  products ProductSupermarket[]
+}
+
+model Wholesale {
+  id           String             @id @default(uuid())
+  description  String
+  min_quantity Decimal            @db.Decimal(12, 4)
+  price        Decimal            @db.Decimal(10, 4)
+  product_id   String             @unique
+  product      ProductSupermarket @relation(fields: [product_id], references: [id])
+}
+
+model ProductSupermarket {
+  id               String           @id @default(uuid())
+  description      String
+  unity            String
+  category         String
+  barcode          String?
+  price            Decimal          @db.Decimal(10, 2)
+  last_update      DateTime?        @default(now())
+  supermarket_id   String
+  wholesale        Wholesale?
+  products_reciept ProductReciept[]
+  products_list    ProductList[]
+  supermarket      Supermarket      @relation(fields: [supermarket_id], references: [id])
+}
+
+//   Lista
+model List {
+  id       String        @id @default(uuid())
+  name     String
+  date     DateTime?     @default(now())
+  user_id  String
+  user     User          @relation(fields: [user_id], references: [id])
+  products ProductList[]
+}
+
+model ProductList {
+  id          String              @id @default(uuid())
+  description String
+  unity       String?
+  quantity    Decimal             @db.Decimal(10, 4)
+  list_id     String
+  product_id  String?
+  product     ProductSupermarket? @relation(fields: [product_id], references: [id])
+  list        List                @relation(fields: [list_id], references: [id])
+}
+
+//  Receita
+model Reciept {
+  id             String           @id @default(uuid())
+  name           String
+  date           DateTime         @default(now())
+  total          Decimal          @db.Decimal(10, 2)
+  discount       Decimal          @db.Decimal(10, 2)
+  supermarket_id String
+  user_id        String
+  products       ProductReciept[]
+  supermarket    Supermarket      @relation(fields: [supermarket_id], references: [id])
+  user           User             @relation(fields: [user_id], references: [id])
+}
+
+model ProductReciept {
+  id         String             @id @default(uuid())
+  index      Int
+  quantity   Decimal            @db.Decimal(12, 4)
+  price      Decimal            @db.Decimal(10, 2)
+  total      Decimal            @db.Decimal(10, 2)
+  receipt_id String
+  product_id String
+  receipt    Reciept            @relation(fields: [receipt_id], references: [id])
+  product    ProductSupermarket @relation(fields: [product_id], references: [id])
+}
+
+// User
+
+model User {
+  id       String    @id @default(uuid())
+  name     String
+  email    String    @unique
+  password String
+  reciepts Reciept[]
+  lists    List[]
+}
