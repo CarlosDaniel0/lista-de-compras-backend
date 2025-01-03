@@ -10,7 +10,8 @@
     "skipLibCheck": true,
   },
   "include": [
-    "src/**/*.ts"
+    "/api/*.ts",
+    "/src/**/*.ts"
   ],
   "exclude": [
     "node_modules"

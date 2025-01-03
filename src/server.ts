@@ -14,3 +14,5 @@ app.listen(3001, () => {
   console.log(`Server runnning 🚀:
     http://10.0.0.79:3001/`)
 })
+
+export default app
