@@ -1,7 +1,7 @@
 {
   "scripts": {
     "copy-files": "copyfiles public/** dist/",
-    "build": "yarn clean && node_modules/.bin/tsc && yarn copy-files",
+    "build": "node_modules/.bin/tsc && yarn copy-files",
     "start": "node dist/server.js",
     "dev": "yarn copy-files && tsc-watch --onSuccess \"node ./dist/src/server.js\""
   },
