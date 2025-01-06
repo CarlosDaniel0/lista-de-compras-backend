@@ -7,7 +7,7 @@ import auth from './auth'
 const router = express.Router()
 
 router.get('/', (_, res) => {
-  res.send({ response: true, message: 'API Super Lista'})
+  res.send({ response: true, message: 'API Lista de Compras'})
 })
 
 router.use('/auth', auth)

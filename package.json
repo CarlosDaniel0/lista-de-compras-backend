@@ -1,8 +1,9 @@
 {
   "scripts": {
-    "build": "node_modules/.bin/tsc",
+    "copy-files": "copyfiles public/** dist/",
+    "build": "yarn clean && node_modules/.bin/tsc && yarn copy-files",
     "start": "node dist/server.js",
-    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\""
+    "dev": "yarn copy-files && tsc-watch --onSuccess \"node ./dist/src/server.js\""
   },
   "dependencies": {
     "@prisma/adapter-pg": "^6.1.0",
@@ -17,6 +18,9 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/pg": "^8.11.10"
+    "@types/pg": "^8.11.10",
+    "@types/serve-favicon": "^2.5.7",
+    "copyfiles": "^2.4.1",
+    "rimraf": "^6.0.1"
   }
 }

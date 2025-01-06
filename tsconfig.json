@@ -13,6 +13,7 @@
     "api/*.ts",
     "src/**/*.ts"
   ],
+  "assets":["public/*"],
   "exclude": [
     "node_modules"
   ]
