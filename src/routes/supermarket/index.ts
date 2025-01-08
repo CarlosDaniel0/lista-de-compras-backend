@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   try {
     const data = Supermarket.parse(req.body).toEntity()
     const supermarket = await prisma.supermarket.create({ data });
-    res.send({ status: true, data: { supermarket } });
+    res.send({ status: true, message: 'Supermercado cadastrado com sucesso!', data: { supermarket } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -36,7 +36,7 @@ router.put("/:id", async (req, res) => {
     const { id } = req.params;
     const data = Supermarket.parse(req.body).toEntity()
     const supermarket = await prisma.supermarket.update({ data, where: { id }});
-    res.send({ status: true, data: { supermarket } });
+    res.send({ status: true, message: 'Supermercado atualizado com sucesso!', data: { supermarket } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -48,7 +48,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const supermarket = await prisma.supermarket.delete({ where: { id }});
-    res.send({ status: true, data: { supermarket } });
+    res.send({ status: true, message: 'Supermercado removido com sucesso!', data: { supermarket } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
