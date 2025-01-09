@@ -11,8 +11,8 @@ router.get('/', (_, res) => {
 })
 
 router.use('/auth', auth)
-router.use('/list', list)
-router.use('/reciept', reciept)
-router.use('/supermarket', supermarket)
+router.use('/lists', list)
+router.use('/reciepts', reciept)
+router.use('/supermarkets', supermarket)
 
 export default router

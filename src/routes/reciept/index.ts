@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   try {
     const data = Reciept.parse(req.body).toEntity();
     const reciept = await prisma.reciept.create({ data });
-    res.send({ status: true, data: { reciept } });
+    res.send({ status: true, message: 'Comprovante cadastrado com sucesso!', data: { reciept } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -35,8 +35,8 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const data = Reciept.parse(req.body).toEntity()
-    const list = await prisma.list.update({ data, where: { id }});
-    res.send({ status: true, data: { list } });
+    const reciept = await prisma.reciept.update({ data, where: { id }});
+    res.send({ status: true, message: 'Comprovante atualizado com sucesso!', data: { reciept } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -48,7 +48,7 @@ router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const reciept = await prisma.reciept.delete({ where: { id }});
-    res.send({ status: true, data: { reciept } });
+    res.send({ status: true, message: 'Comprovante removido com sucesso!', data: { reciept } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
