@@ -91,7 +91,7 @@ router.post("/:id/product", async (req, res) => {
     );
     const data = content.map(ProductReciept.parse).map((e) => e.toEntity());
     const product = await prisma.productReciept.createMany({ data });
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto cadastrado com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -116,7 +116,7 @@ router.put("/:id/product/:id_product", async (req, res) => {
     const { id: receipt_id, id_product: id } = req.params;
     const data = ProductReciept.parse(req.body).toEntity()
     const product = await prisma.productReciept.update({ data, where: { id, receipt_id }})
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto atualizado com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -128,7 +128,7 @@ router.delete("/:id/product/:id_product", async (req, res) => {
   try {
     const { id: receipt_id, id_product: id } = req.params;
     const product = await prisma.productReciept.delete({ where: { id, receipt_id }})
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto removido com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }

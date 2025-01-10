@@ -1697,7 +1697,7 @@ const insertReceipt = (products: Product[], date: Date, total: number, discount:
   try {
     const reciept = await prisma.reciept.create({
       data: {
-        name: `Recibo ${date.toLocaleString().substring(0, 10)}`,
+        name: `Comprovante ${date.toLocaleString().substring(0, 10)}`,
         user_id: "sadasdasd",
         supermarket_id: "08957708-ee88-43a5-87e2-350acdb325e8",
         total,
