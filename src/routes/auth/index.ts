@@ -10,7 +10,6 @@ router.post("/", async (req, res) => {
 
   try {
     const credential = CredentialResponse.parse(req.body);
-
     let user = await prisma.user.findFirst({
       where: {
         email: credential.user?.email,

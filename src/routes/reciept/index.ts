@@ -21,8 +21,9 @@ router.post("/", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
-    const data = Reciept.parse(req.body).toEntity();
-    const reciept = await prisma.reciept.create({ data });
+    const content = (Array.isArray(req.body) ? req.body : [req.body])
+    const data = content.map(item => Reciept.parse(item).toEntity())
+    const reciept = await prisma.reciept.createMany({ data });
     res.send({ status: true, message: 'Comprovante cadastrado com sucesso!', data: { reciept } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));

@@ -21,8 +21,9 @@ router.post("/", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
-    const data = Supermarket.parse(req.body).toEntity()
-    const supermarket = await prisma.supermarket.create({ data });
+    const content = (Array.isArray(req.body) ? req.body : [req.body])
+    const data = content.map(item => Supermarket.parse(item).toEntity())
+    const supermarket = await prisma.supermarket.createMany({ data });
     res.send({ status: true, message: 'Supermercado cadastrado com sucesso!', data: { supermarket } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));

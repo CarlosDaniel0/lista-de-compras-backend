@@ -21,8 +21,9 @@ router.post("/", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
-    const data = List.parse(req.body).toEntity()
-    const list = await prisma.list.create({ data });
+    const content = (Array.isArray(req.body) ? req.body : [req.body])
+    const data = content.map(item => List.parse(item).toEntity())
+    const list = await prisma.list.createMany({ data });
     res.send({ status: true, message: 'Lista Criada com sucesso!', data: { list } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
@@ -95,18 +96,6 @@ router.post("/:id/product", async (req, res) => {
 })
 
 router.get("/:id/product/:id_product", async (req, res) => {
-  const prisma = new PrismaClient({ adapter });
-
-  try {
-    const { id: list_id, id_product: id } = req.params;
-    const product = await prisma.productList.findFirst({ where: { id, list_id }})
-    res.send({ status: true, data: { product } });
-  } catch (e: any) {
-    res.send(databaseErrorResponse(e?.message ?? ""));
-  }
-})
-
-router.put("/:id/product/:id_product", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
