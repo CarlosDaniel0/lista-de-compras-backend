@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   try {
     const content = (Array.isArray(req.body) ? req.body : [req.body])
     const data = content.map(item => List.parse(item).toEntity())
-    const list = await prisma.list.createMany({ data });
+    const list = await prisma.list.createManyAndReturn({ data });
     res.send({ status: true, message: 'Lista Criada com sucesso!', data: { list } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
