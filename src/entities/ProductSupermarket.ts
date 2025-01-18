@@ -55,7 +55,7 @@ export class ProductSupermarket {
     if (!category) throw new Error("O campo category é obrigatório");
     if (!barcode) throw new Error("O campo barcode é obrigatório");
     if (typeof price !== "number" && Number.isNaN(Number(price)))
-      throw new Error("O campo quantity é obrigatório");
+      throw new Error("O campo price é obrigatório");
     if (!last_update || !new Date(last_update))
       throw new Error("O campo last_update é obrigatório");
     if (!supermarket_id)

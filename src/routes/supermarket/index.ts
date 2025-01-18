@@ -70,7 +70,7 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-router.get("/:id/product", async (req, res) => {
+router.get("/:id/products", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
@@ -84,7 +84,7 @@ router.get("/:id/product", async (req, res) => {
   }
 })
 
-router.post("/:id/product", async (req, res) => {
+router.post("/:id/products", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
@@ -94,13 +94,13 @@ router.post("/:id/product", async (req, res) => {
     );
     const data = content.map(ProductSupermarket.parse).map((e) => e.toEntity());
     const products = await prisma.productSupermarket.createMany({ data });
-    res.send({ status: true, data: { products } });
+    res.send({ status: true, message: 'Produto cadatrado com sucesso!', data: { products } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
 })
 
-router.put("/:id/product/:id_product", async (req, res) => {
+router.put("/:id/products/:id_product", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
@@ -113,7 +113,7 @@ router.put("/:id/product/:id_product", async (req, res) => {
   }
 })
 
-router.delete("/:id/product/:id_product", async (req, res) => {
+router.delete("/:id/products/:id_product", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
@@ -125,7 +125,7 @@ router.delete("/:id/product/:id_product", async (req, res) => {
   }
 })
 
-router.get("/:id/product/:barcode", async (req, res) => {
+router.get("/:id/products/:barcode", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
