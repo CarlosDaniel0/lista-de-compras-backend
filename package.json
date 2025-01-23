@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@prisma/adapter-pg": "^6.1.0",
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.2.1",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "jwt-decode": "^4.0.0",

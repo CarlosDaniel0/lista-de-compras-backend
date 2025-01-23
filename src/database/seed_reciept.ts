@@ -3,7 +3,7 @@ import adapter from "./prisma";
 
 const products_1 = [
   {
-    index: 1,
+    position: 1,
     barcode: "02900004361337",
     description: "V COENTRO MATEUS A UN ",
     quantity: 6,
@@ -12,7 +12,7 @@ const products_1 = [
     total: 9.54,
   },
   {
-    index: 2,
+    position: 2,
     barcode: "02900004362518",
     description: "V CEBOLINHA MATEUS A UN",
     quantity: 7,
@@ -21,7 +21,7 @@ const products_1 = [
     total: 11.13,
   },
   {
-    index: 3,
+    position: 3,
     barcode: "07898700023084",
     description: "F MORANGO BDJ 250G ",
     quantity: 1,
@@ -30,7 +30,7 @@ const products_1 = [
     total: 8,
   },
   {
-    index: 4,
+    position: 4,
     barcode: "02900000060692",
     description: "F MORGOTH KG",
     quantity: 0.91,
@@ -39,7 +39,7 @@ const products_1 = [
     total: 6.36,
   },
   {
-    index: 5,
+    position: 5,
     barcode: "02900000087811",
     description: "F ABACATE KG",
     quantity: 0.665,
@@ -48,7 +48,7 @@ const products_1 = [
     total: 7.31,
   },
   {
-    index: 6,
+    position: 6,
     barcode: "07898957749034",
     description: "F UVA VITORIA SS CUMBUCA 500G",
     quantity: 1,
@@ -57,7 +57,7 @@ const products_1 = [
     total: 10.99,
   },
   {
-    index: 7,
+    position: 7,
     barcode: "02900004361511",
     description: "V ALFACE AMERICANO MATEUS A UN",
     quantity: 1,
@@ -66,7 +66,7 @@ const products_1 = [
     total: 3.49,
   },
   {
-    index: 8,
+    position: 8,
     barcode: "02900000067134",
     description: "V CENOURA KG",
     quantity: 0.835,
@@ -75,7 +75,7 @@ const products_1 = [
     total: 3.33,
   },
   {
-    index: 9,
+    position: 9,
     barcode: "02900000014060",
     description: "V BATATINHA LAV KG",
     quantity: 1.745,
@@ -84,7 +84,7 @@ const products_1 = [
     total: 13.94,
   },
   {
-    index: 10,
+    position: 10,
     barcode: "02900000050433",
     description: "F BANANA NANICA KG",
     quantity: 2.21,
@@ -93,7 +93,7 @@ const products_1 = [
     total: 13.9,
   },
   {
-    index: 11,
+    position: 11,
     barcode: "02900000087231",
     description: "V ALHO KG",
     quantity: 0.405,
@@ -102,7 +102,7 @@ const products_1 = [
     total: 12.51,
   },
   {
-    index: 12,
+    position: 12,
     barcode: "02900000064195",
     description: "V REPOLHO LISO KG",
     quantity: 1.325,
@@ -111,7 +111,7 @@ const products_1 = [
     total: 5.29,
   },
   {
-    index: 13,
+    position: 13,
     barcode: "02900000060753",
     description: "F MAMAO PAPAIA KG",
     quantity: 1.005,
@@ -120,7 +120,7 @@ const products_1 = [
     total: 10.04,
   },
   {
-    index: 14,
+    position: 14,
     barcode: "02300000087545",
     description: "F MELAO AMARELO KG",
     quantity: 3.19,
@@ -129,7 +129,7 @@ const products_1 = [
     total: 13.69,
   },
   {
-    index: 15,
+    position: 15,
     barcode: "02900000079731",
     description: "V CHUCHU KG",
     quantity: 0.67,
@@ -138,7 +138,7 @@ const products_1 = [
     total: 2.54,
   },
   {
-    index: 16,
+    position: 16,
     barcode: "02900000016323",
     description: "F BANANA PRATA KG",
     quantity: 1.91,
@@ -147,7 +147,7 @@ const products_1 = [
     total: 13.54,
   },
   {
-    index: 17,
+    position: 17,
     barcode: "02900000060524",
     description: "F MARACUJA KG",
     quantity: 2.48,
@@ -156,7 +156,7 @@ const products_1 = [
     total: 22.3,
   },
   {
-    index: 18,
+    position: 18,
     barcode: "02900000038721",
     description: "V CEBOLA COMUM KG",
     quantity: 1.85,
@@ -165,7 +165,7 @@ const products_1 = [
     total: 7.38,
   },
   {
-    index: 19,
+    position: 19,
     barcode: "02900004361825",
     description: "V PIMENTA DE CHEIRO MATEUS A KG",
     quantity: 0.15,
@@ -174,7 +174,7 @@ const products_1 = [
     total: 1.65,
   },
   {
-    index: 20,
+    position: 20,
     barcode: "02900000019478",
     description: "V BETERRABA KG",
     quantity: 0.22,
@@ -183,7 +183,7 @@ const products_1 = [
     total: 1.3,
   },
   {
-    index: 21,
+    position: 21,
     barcode: "02900000016071",
     description: "F KIWI IMPORTADO KG",
     quantity: 0.44,
@@ -192,7 +192,7 @@ const products_1 = [
     total: 12.32,
   },
   {
-    index: 22,
+    position: 22,
     barcode: "02900000808164",
     description: "V TOMATE SALADETE KG",
     quantity: 1.7,
@@ -201,7 +201,7 @@ const products_1 = [
     total: 5.93,
   },
   {
-    index: 23,
+    position: 23,
     barcode: "02900000041196",
     description: "V PIMENTAO KG",
     quantity: 0.38,
@@ -210,7 +210,7 @@ const products_1 = [
     total: 2.28,
   },
   {
-    index: 24,
+    position: 24,
     barcode: "02900000087514",
     description: "V PEPINO KG",
     quantity: 0.765,
@@ -219,7 +219,7 @@ const products_1 = [
     total: 2.98,
   },
   {
-    index: 25,
+    position: 25,
     barcode: "02900000064201",
     description: "F ABACAXI UN",
     quantity: 2,
@@ -228,7 +228,7 @@ const products_1 = [
     total: 13.98,
   },
   {
-    index: 26,
+    position: 26,
     barcode: "02900004361856",
     description: "V QUIABO MATEUS A KG",
     quantity: 0.4,
@@ -237,7 +237,7 @@ const products_1 = [
     total: 9.2,
   },
   {
-    index: 27,
+    position: 27,
     barcode: "02900000053045",
     description: "V BATATA DOCE KG ",
     quantity: 1.075,
@@ -246,7 +246,7 @@ const products_1 = [
     total: 4.61,
   },
   {
-    index: 28,
+    position: 28,
     barcode: "07894904271719",
     description: "MARGARINA PRIMOR 1KG ",
     quantity: 1,
@@ -255,7 +255,7 @@ const products_1 = [
     total: 11.89,
   },
   {
-    index: 29,
+    position: 29,
     barcode: "07898043915039",
     description: "SORV FROSTY LEITINHO C ACAI 1.5L",
     quantity: 1,
@@ -264,7 +264,7 @@ const products_1 = [
     total: 25.99,
   },
   {
-    index: 30,
+    position: 30,
     barcode: "07898034920325",
     description: "IOG ISIS SALADA DE FRUTAS 8L 900G",
     quantity: 1,
@@ -273,7 +273,7 @@ const products_1 = [
     total: 6.19,
   },
   {
-    index: 31,
+    position: 31,
     barcode: "07898403781014",
     description: "BEBIDA LACT BETANIA AMEIXA 900G",
     quantity: 1,
@@ -282,7 +282,7 @@ const products_1 = [
     total: 6.19,
   },
   {
-    index: 32,
+    position: 32,
     barcode: "07898968620711",
     description: "GALINHA INTEIRA CONG KERO FRANGO KG",
     quantity: 2.975,
@@ -291,7 +291,7 @@ const products_1 = [
     total: 17.82,
   },
   {
-    index: 33,
+    position: 33,
     barcode: "02900002822595",
     description: "COXA DE FGO RESF INTERF KG",
     quantity: 2,
@@ -300,7 +300,7 @@ const products_1 = [
     total: 24.98,
   },
   {
-    index: 34,
+    position: 34,
     barcode: "02900005266778",
     description: "LING CHUR MIRANDA CARNE SUINA KG",
     quantity: 0.598,
@@ -309,7 +309,7 @@ const products_1 = [
     total: 10.7,
   },
   {
-    index: 35,
+    position: 35,
     barcode: "02900002212518",
     description: "QUEIJO MUSS PRO GIROLANDA KG",
     quantity: 0.376,
@@ -318,7 +318,7 @@ const products_1 = [
     total: 18.76,
   },
   {
-    index: 36,
+    position: 36,
     barcode: "02900001970389",
     description: "PRES PRO FRIKESA SCAPA DE GORD KG",
     quantity: 0.33,
@@ -327,7 +327,7 @@ const products_1 = [
     total: 7.23,
   },
   {
-    index: 37,
+    position: 37,
     barcode: "02900003174952",
     description: "LING CALAB FRIMESA M KG",
     quantity: 0.647,
@@ -336,7 +336,7 @@ const products_1 = [
     total: 15.52,
   },
   {
-    index: 38,
+    position: 38,
     barcode: "02900000099593",
     description: "BISTECA BOVINA KG",
     quantity: 2.132,
@@ -345,7 +345,7 @@ const products_1 = [
     total: 68.01,
   },
   {
-    index: 39,
+    position: 39,
     barcode: "02900000089082",
     description: "PALETA SUINA KG",
     quantity: 2.268,
@@ -354,7 +354,7 @@ const products_1 = [
     total: 49.67,
   },
   {
-    index: 40,
+    position: 40,
     barcode: "02900000090903",
     description: "COSTELA P A BOVINA KG",
     quantity: 1.134,
@@ -363,7 +363,7 @@ const products_1 = [
     total: 20.3,
   },
   {
-    index: 41,
+    position: 41,
     barcode: "02900000915374",
     description: "PATINHO BOV PED KG",
     quantity: 2.774,
@@ -372,7 +372,7 @@ const products_1 = [
     total: 99.59,
   },
   {
-    index: 42,
+    position: 42,
     barcode: "07891150060296",
     description: "SAB LUX SUAVE ROSAS FRANCESAS 125G",
     quantity: 1,
@@ -381,7 +381,7 @@ const products_1 = [
     total: 3.19,
   },
   {
-    index: 43,
+    position: 43,
     barcode: "07891150059917",
     description: "SAB LUX SUAVE LIRIO AZUL 85G",
     quantity: 4,
@@ -390,7 +390,7 @@ const products_1 = [
     total: 7.96,
   },
   {
-    index: 44,
+    position: 44,
     barcode: "07891150060296",
     description: "SAB LUX SUAVE ROSAS FRANCESAS 125G ",
     quantity: 1,
@@ -399,7 +399,7 @@ const products_1 = [
     total: 3.19,
   },
   {
-    index: 45,
+    position: 45,
     barcode: "07891150059856",
     description: "SAB LUX SUAVE FLOR VERBENA 85G",
     quantity: 1,
@@ -408,7 +408,7 @@ const products_1 = [
     total: 1.99,
   },
   {
-    index: 46,
+    position: 46,
     barcode: "07891150059917",
     description: "SAB LUX SUAVE LIRIO AZUL 85G",
     quantity: 1,
@@ -417,7 +417,7 @@ const products_1 = [
     total: 1.99,
   },
   {
-    index: 47,
+    position: 47,
     barcode: "07891150059849",
     description: "SAB LUX SUAVE BUQUE JASMIM 85G",
     quantity: 2,
@@ -426,7 +426,7 @@ const products_1 = [
     total: 3.98,
   },
   {
-    index: 48,
+    position: 48,
     barcode: "07891150059917",
     description: "SAB LUX SUAVE LIRIO AZUL 85G",
     quantity: 1,
@@ -435,7 +435,7 @@ const products_1 = [
     total: 1.99,
   },
   {
-    index: 49,
+    position: 49,
     barcode: "07891150059856",
     description: "SAB LUX SUAVE FLOR VERBENA 85G",
     quantity: 1,
@@ -444,7 +444,7 @@ const products_1 = [
     total: 1.99,
   },
   {
-    index: 50,
+    position: 50,
     barcode: "07891024132005",
     description: "CR D COLGATE TR A ORIG 90G",
     quantity: 1,
@@ -453,7 +453,7 @@ const products_1 = [
     total: 4.69,
   },
   {
-    index: 51,
+    position: 51,
     barcode: "07500435154420",
     description: "AP BARB DESC PREST MEN U GRIP CARD",
     quantity: 1,
@@ -462,7 +462,7 @@ const products_1 = [
     total: 4.19,
   },
   {
-    index: 52,
+    position: 52,
     barcode: "07896067200179",
     description: "PILHA PANASONIC ALK AA LR6 PQ 4X1",
     quantity: 1,
@@ -471,7 +471,7 @@ const products_1 = [
     total: 12.99,
   },
   {
-    index: 53,
+    position: 53,
     barcode: "07896009724015",
     description: "PILHA RAYOVAC ALC PAL 20912 2X1",
     quantity: 1,
@@ -480,7 +480,7 @@ const products_1 = [
     total: 8.65,
   },
   {
-    index: 54,
+    position: 54,
     barcode: "07891024132005",
     description: "CR D COLGATE TR A ORIG 90G",
     quantity: 2,
@@ -489,7 +489,7 @@ const products_1 = [
     total: 9.38,
   },
   {
-    index: 55,
+    position: 55,
     barcode: "07891024180877",
     description: "SH DARLING TILIA PRO VIT B5 350ML",
     quantity: 1,
@@ -498,7 +498,7 @@ const products_1 = [
     total: 8.45,
   },
   {
-    index: 56,
+    position: 56,
     barcode: "07891024182475",
     description: "SH DARLING 2X1 350ML",
     quantity: 1,
@@ -507,7 +507,7 @@ const products_1 = [
     total: 8.45,
   },
   {
-    index: 57,
+    position: 57,
     barcode: "07897312400504",
     description: "LIMP ALUM ECONOMICO 5OOML ",
     quantity: 2,
@@ -516,7 +516,7 @@ const products_1 = [
     total: 4.58,
   },
   {
-    index: 58,
+    position: 58,
     barcode: "07896013108870",
     description: "AMAC ROU SONHO MAGIC L5P4.5L",
     quantity: 1,
@@ -525,7 +525,7 @@ const products_1 = [
     total: 25.99,
   },
   {
-    index: 59,
+    position: 59,
     barcode: "07896098901052",
     description: "LAVA ROU TIXAN PRIMAVERA 5L",
     quantity: 2,
@@ -534,7 +534,7 @@ const products_1 = [
     total: 97.18,
   },
   {
-    index: 60,
+    position: 60,
     barcode: "07896098901373",
     description: "LAVA ROU TIXAN MACIEZ 3L",
     quantity: 1,
@@ -543,7 +543,7 @@ const products_1 = [
     total: 29.99,
   },
   {
-    index: 61,
+    position: 61,
     barcode: "07898247780297",
     description: "OLEO SOJA VITALIV PET 900ML",
     quantity: 3,
@@ -552,7 +552,7 @@ const products_1 = [
     total: 21.87,
   },
   {
-    index: 62,
+    position: 62,
     barcode: "07898403782387",
     description: "LEITE L VIDA BETANIA INT CTAMPA 1L ",
     quantity: 1,
@@ -561,7 +561,7 @@ const products_1 = [
     total: 5.79,
   },
   {
-    index: 63,
+    position: 63,
     barcode: "07898215152354",
     description: "LEITE PO PIRACANJUBA INT 1G ",
     quantity: 1,
@@ -570,7 +570,7 @@ const products_1 = [
     total: 37.9,
   },
   {
-    index: 64,
+    position: 64,
     barcode: "07897748800213",
     description: "ARROZ BCO BELLSABOR T1 5KG ",
     quantity: 2,
@@ -579,7 +579,7 @@ const products_1 = [
     total: 53.98,
   },
   {
-    index: 65,
+    position: 65,
     barcode: "07898211130028",
     description: "SALG SALSITO QUEIJO 32G ",
     quantity: 2,
@@ -588,7 +588,7 @@ const products_1 = [
     total: 2.7,
   },
   {
-    index: 66,
+    position: 66,
     barcode: "07891132019724",
     description: "TEMP SAZON MARROM PFEIJAO SH 60G ",
     quantity: 1,
@@ -597,7 +597,7 @@ const products_1 = [
     total: 4.49,
   },
   {
-    index: 67,
+    position: 67,
     barcode: "07891910007110",
     description: "ACUC CONF GLACUCAR UNIAO 500G",
     quantity: 1,
@@ -606,7 +606,7 @@ const products_1 = [
     total: 6.99,
   },
   {
-    index: 68,
+    position: 68,
     barcode: "07898935659010",
     description: "ACUC CRISTAL CAUAXI 1KG",
     quantity: 1,
@@ -615,7 +615,7 @@ const products_1 = [
     total: 4.15,
   },
   {
-    index: 69,
+    position: 69,
     barcode: "00192505232014",
     description: "ESP OREGANO PURO TEMPERO 10G",
     quantity: 1,
@@ -624,7 +624,7 @@ const products_1 = [
     total: 1.95,
   },
   {
-    index: 70,
+    position: 70,
     barcode: "07891000307045",
     description: "CAFE NESCAFE SOLUV MATINAL SH 40G",
     quantity: 2,
@@ -633,7 +633,7 @@ const products_1 = [
     total: 10.98,
   },
   {
-    index: 71,
+    position: 71,
     barcode: "07891000307120",
     description: "CAFE NESCAFE SOLUV ORIGINAL SH 40G ",
     quantity: 1,
@@ -642,7 +642,7 @@ const products_1 = [
     total: 5.49,
   },
   {
-    index: 72,
+    position: 72,
     barcode: "00192505233271",
     description: "ESP CHIMICHURRI PICANTE PURO TEMPER",
     quantity: 1,
@@ -651,7 +651,7 @@ const products_1 = [
     total: 3.25,
   },
   {
-    index: 73,
+    position: 73,
     barcode: "00192505231901",
     description: "ESP ERVA DOCE PURO TEMPERO 20G ",
     quantity: 1,
@@ -660,7 +660,7 @@ const products_1 = [
     total: 1.99,
   },
   {
-    index: 74,
+    position: 74,
     barcode: "00192505232014",
     description: "ESP OREGANO PURO TEMPERO 10G",
     quantity: 1,
@@ -669,7 +669,7 @@ const products_1 = [
     total: 1.95,
   },
   {
-    index: 75,
+    position: 75,
     barcode: "07891132019281",
     description: "TEMP SAZON VERM PCARNES SH 60G",
     quantity: 3,
@@ -678,7 +678,7 @@ const products_1 = [
     total: 13.47,
   },
   {
-    index: 76,
+    position: 76,
     barcode: "07898211130356",
     description: "SALG DELICITO CHURRASCO 50G ",
     quantity: 2,
@@ -687,7 +687,7 @@ const products_1 = [
     total: 3.78,
   },
   {
-    index: 77,
+    position: 77,
     barcode: "00192505232014",
     description: "ESP OREGANO PURO TEMPERADO 10G",
     quantity: 1,
@@ -696,7 +696,7 @@ const products_1 = [
     total: 1.95,
   },
   {
-    index: 78,
+    position: 78,
     barcode: "00192505232014",
     description: "ESP OREGANO PURDO TEMPERADO 10G",
     quantity: 1,
@@ -705,7 +705,7 @@ const products_1 = [
     total: 1.95,
   },
   {
-    index: 79,
+    position: 79,
     barcode: "07891132019724",
     description: "TEMP SAZON MARROM PFEIJAO SH 60G",
     quantity: 1,
@@ -714,7 +714,7 @@ const products_1 = [
     total: 4.49,
   },
   {
-    index: 80,
+    position: 80,
     barcode: "07891000120095",
     description: "CHOC PO CACAU NESTLE 200G",
     quantity: 1,
@@ -723,7 +723,7 @@ const products_1 = [
     total: 35.49,
   },
   {
-    index: 81,
+    position: 81,
     barcode: "07898041790850",
     description: "BISC POLV ARG TRAD VALE DO PRATA 80",
     quantity: 2,
@@ -732,7 +732,7 @@ const products_1 = [
     total: 12.98,
   },
   {
-    index: 82,
+    position: 82,
     barcode: "00192505233462",
     description: "ESP CEBOLA SALSA E ALHO PURO TEMPER",
     quantity: 1,
@@ -741,7 +741,7 @@ const products_1 = [
     total: 3.99,
   },
   {
-    index: 83,
+    position: 83,
     barcode: "07896490288775",
     description: "FLOCAO MILHO DONA CLARA TRAD 500G",
     quantity: 3,
@@ -750,7 +750,7 @@ const products_1 = [
     total: 4.77,
   },
   {
-    index: 84,
+    position: 84,
     barcode: "07898211130363",
     description: "SALG DELICITOS APETITO PIZZA 50G",
     quantity: 2,
@@ -759,7 +759,7 @@ const products_1 = [
     total: 3.58,
   },
   {
-    index: 85,
+    position: 85,
     barcode: "07896036098981",
     description: "MOLHO TOM POMODORO TRAD SH 300G",
     quantity: 1,
@@ -768,7 +768,7 @@ const products_1 = [
     total: 1.89,
   },
   {
-    index: 86,
+    position: 86,
     barcode: "07891040299614",
     description: "ESP 3M SB M USO ECON 4X1",
     quantity: 1,
@@ -777,7 +777,7 @@ const products_1 = [
     total: 6.49,
   },
   {
-    index: 87,
+    position: 87,
     barcode: "07896259410133",
     description: "LEITE PO CAMPONESA INT 200G",
     quantity: 1,
@@ -786,7 +786,7 @@ const products_1 = [
     total: 7.19,
   },
   {
-    index: 88,
+    position: 88,
     barcode: "07898274440034",
     description: "FAR MAND BCA IDEAL 1KG",
     quantity: 1,
@@ -795,7 +795,7 @@ const products_1 = [
     total: 12.49,
   },
   {
-    index: 89,
+    position: 89,
     barcode: "07899767443822",
     description: "MASSA PRONTA TAPIOCA NOSSA GOMA 1KG",
     quantity: 1,
@@ -804,7 +804,7 @@ const products_1 = [
     total: 6.59,
   },
   {
-    index: 90,
+    position: 90,
     barcode: "07896327511342",
     description: "MIST BOLO APTI LARANJA 400G",
     quantity: 1,
@@ -813,7 +813,7 @@ const products_1 = [
     total: 5.29,
   },
   {
-    index: 91,
+    position: 91,
     barcode: "07896490288775",
     description: "FLOCAO MILHO DONA CLARA TRAD 500G",
     quantity: 1,
@@ -822,7 +822,7 @@ const products_1 = [
     total: 1.59,
   },
   {
-    index: 92,
+    position: 92,
     barcode: "07898922012286",
     description: "FEIJAO DE CORDA DONA DE TP1 1KG",
     quantity: 1,
@@ -831,7 +831,7 @@ const products_1 = [
     total: 6.99,
   },
   {
-    index: 93,
+    position: 93,
     barcode: "07896327501251",
     description: "MIST BOLO APTI ABACAXI 400G",
     quantity: 1,
@@ -840,7 +840,7 @@ const products_1 = [
     total: 5.29,
   },
   {
-    index: 94,
+    position: 94,
     barcode: "00602883656642",
     description: "MAC CORACAO NORDESTINO ESPAGUET COM",
     quantity: 2,
@@ -849,7 +849,7 @@ const products_1 = [
     total: 5.58,
   },
   {
-    index: 95,
+    position: 95,
     barcode: "07000005174907",
     description: "PAO DE FORMA INTEGRAL 36 BUMBA 400G",
     quantity: 1,
@@ -858,7 +858,7 @@ const products_1 = [
     total: 6.99,
   },
   {
-    index: 96,
+    position: 96,
     barcode: "17896259410133",
     description: "LEITE L VIDA PIRACANJUBA SEMI DESN",
     quantity: 12,
@@ -867,7 +867,7 @@ const products_1 = [
     total: 65.88,
   },
   {
-    index: 97,
+    position: 97,
     barcode: "07896259410133",
     description: "LEITE PO CAMPONESA INT 200G",
     quantity: 6,
@@ -876,7 +876,7 @@ const products_1 = [
     total: 43.14,
   },
   {
-    index: 98,
+    position: 98,
     barcode: "07898935659010",
     description: "ACUC CRISTAL CAUAXI 1KG",
     quantity: 10,
@@ -885,7 +885,7 @@ const products_1 = [
     total: 41.5,
   },
   {
-    index: 99,
+    position: 99,
     barcode: "07896181700234",
     description: "ACUC MASC DACOLONIA 500G",
     quantity: 4,
@@ -897,7 +897,7 @@ const products_1 = [
 
 const products_2 = [
   {
-    index: 1,
+    position: 1,
     barcode: "02900002374971",
     description: "COXA CSOB FGO INTERF CONG KG",
     quantity: 3.03,
@@ -906,7 +906,7 @@ const products_2 = [
     total: 37.48,
   },
   {
-    index: 2,
+    position: 2,
     barcode: "02900000024724",
     description: "BISTECA SUINA CONGELADA KG",
     quantity: 1.35,
@@ -915,7 +915,7 @@ const products_2 = [
     total: 26.86,
   },
   {
-    index: 3,
+    position: 3,
     barcode: "02900000915350",
     description: "CHA DE FORA PED KG",
     quantity: 3.266,
@@ -924,7 +924,7 @@ const products_2 = [
     total: 104.19,
   },
   {
-    index: 4,
+    position: 4,
     barcode: "02900000354968",
     description: "PALETA SUINA CONS KG",
     quantity: 1.308,
@@ -933,7 +933,7 @@ const products_2 = [
     total: 24.18,
   },
   {
-    index: 5,
+    position: 5,
     barcode: "02900000354968",
     description: "PALETA SUINA CONG KG",
     quantity: 1.256,
@@ -942,7 +942,7 @@ const products_2 = [
     total: 23.22,
   },
   {
-    index: 6,
+    position: 6,
     barcode: "02900005581086",
     description: "QUEIJO PRATO BARRA GRANDE KG",
     quantity: 0.108,
@@ -951,7 +951,7 @@ const products_2 = [
     total: 8.41,
   },
   {
-    index: 7,
+    position: 7,
     barcode: "02900002212518",
     description: "QUEIJO MUSS PRO GIROLANDA KG",
     quantity: 0.218,
@@ -960,7 +960,7 @@ const products_2 = [
     total: 10.88,
   },
   {
-    index: 8,
+    position: 8,
     barcode: "02900003094373",
     description: "LANCHE PRO PEPERI KG",
     quantity: 0.348,
@@ -969,7 +969,7 @@ const products_2 = [
     total: 5.19,
   },
   {
-    index: 9,
+    position: 9,
     barcode: "02900000915114",
     description: "FIGADO BOY CONG KG",
     quantity: 0.72,
@@ -978,7 +978,7 @@ const products_2 = [
     total: 8.99,
   },
   {
-    index: 10,
+    position: 10,
     barcode: "07898061709221",
     description: "BEB LACT FLAMBOYANT MORANGO SH 1KG",
     quantity: 1,
@@ -987,7 +987,7 @@ const products_2 = [
     total: 6.89,
   },
   {
-    index: 11,
+    position: 11,
     barcode: "07898046870540",
     description: "BEBIDA LACT LANGA MRGO 900G",
     quantity: 1,
@@ -996,7 +996,7 @@ const products_2 = [
     total: 4.99,
   },
   {
-    index: 12,
+    position: 12,
     barcode: "07898046870571",
     description: "BEBIDA LACT LONGA BAN MC CER 900G",
     quantity: 1,
@@ -1005,7 +1005,7 @@ const products_2 = [
     total: 4.99,
   },
   {
-    index: 13,
+    position: 13,
     barcode: "02900000050433",
     description: "F BANANA NANICA KG",
     quantity: 2.485,
@@ -1014,7 +1014,7 @@ const products_2 = [
     total: 15.63,
   },
   {
-    index: 14,
+    position: 14,
     barcode: "02900000060524",
     description: "F MARACUJA KG",
     quantity: 2.99,
@@ -1023,7 +1023,7 @@ const products_2 = [
     total: 20.9,
   },
   {
-    index: 15,
+    position: 15,
     barcode: "02900000038721",
     description: "V CEBOLA COMUN KG",
     quantity: 1.695,
@@ -1032,7 +1032,7 @@ const products_2 = [
     total: 5.07,
   },
   {
-    index: 16,
+    position: 16,
     barcode: "02900000808164",
     description: "V TOMATE SALADETE KG",
     quantity: 0.555,
@@ -1041,7 +1041,7 @@ const products_2 = [
     total: 1.83,
   },
   {
-    index: 17,
+    position: 17,
     barcode: "02900000058101",
     description: "F PERA PORTUGUESA KG",
     quantity: 0.48,
@@ -1050,7 +1050,7 @@ const products_2 = [
     total: 12.48,
   },
   {
-    index: 18,
+    position: 18,
     barcode: "02900000087545",
     description: "MELAO AMARELO KG",
     quantity: 3.41,
@@ -1059,7 +1059,7 @@ const products_2 = [
     total: 12.92,
   },
   {
-    index: 19,
+    position: 19,
     barcode: "02900000016323",
     description: "F BANANA PRATA KG",
     quantity: 1.27,
@@ -1068,7 +1068,7 @@ const products_2 = [
     total: 9.39,
   },
   {
-    index: 20,
+    position: 20,
     barcode: "02900000041196",
     description: "V PIMENTAO KG",
     quantity: 0.255,
@@ -1077,7 +1077,7 @@ const products_2 = [
     total: 1.53,
   },
   {
-    index: 21,
+    position: 21,
     barcode: "02900000016323",
     description: "F BANANA PRATA KG",
     quantity: 0.35,
@@ -1086,7 +1086,7 @@ const products_2 = [
     total: 2.59,
   },
   {
-    index: 22,
+    position: 22,
     barcode: "02900000016071",
     description: "F KIWI IMPORTADO KG",
     quantity: 0.35,
@@ -1095,7 +1095,7 @@ const products_2 = [
     total: 9.8,
   },
   {
-    index: 23,
+    position: 23,
     barcode: "02900000022553",
     description: "UVA PASSAS PRETA KG",
     quantity: 0.306,
@@ -1104,7 +1104,7 @@ const products_2 = [
     total: 7.65,
   },
   {
-    index: 24,
+    position: 24,
     barcode: "02900004362068",
     description: "V ACELGA MATEUS A KG",
     quantity: 0.402,
@@ -1113,7 +1113,7 @@ const products_2 = [
     total: 4.42,
   },
   {
-    index: 25,
+    position: 25,
     barcode: "02900000067134",
     description: "V CENOURA KG",
     quantity: 0.645,
@@ -1122,7 +1122,7 @@ const products_2 = [
     total: 2.51,
   },
   {
-    index: 26,
+    position: 26,
     barcode: "07898215151760",
     description: "LETTE L VIDA PIRACANJUBA SEMI DESN",
     quantity: 5,
@@ -1131,7 +1131,7 @@ const products_2 = [
     total: 27.45,
   },
   {
-    index: 27,
+    position: 27,
     barcode: "07898080643018",
     description: "LEITE L VIDA ITALAC S-D A2 1L",
     quantity: 3,
@@ -1140,7 +1140,7 @@ const products_2 = [
     total: 19.77,
   },
   {
-    index: 28,
+    position: 28,
     barcode: "07891107101621",
     description: "OLEO SOJA SOYA PET 900ML",
     quantity: 3,
@@ -1149,7 +1149,7 @@ const products_2 = [
     total: 25.77,
   },
   {
-    index: 29,
+    position: 29,
     barcode: "07891700011266",
     description: "TEMP COMP ARISCO SPIM 1KG",
     quantity: 1,
@@ -1158,7 +1158,7 @@ const products_2 = [
     total: 21.05,
   },
   {
-    index: 30,
+    position: 30,
     barcode: "07898046870311",
     description: "REQUEIJAO LIGHT LONGA 200G",
     quantity: 1,
@@ -1167,7 +1167,7 @@ const products_2 = [
     total: 9.99,
   },
   {
-    index: 31,
+    position: 31,
     barcode: "07896004400075",
     description: "LEITE COCO SOCOCO 200ML",
     quantity: 1,
@@ -1176,7 +1176,7 @@ const products_2 = [
     total: 7.09,
   },
   {
-    index: 32,
+    position: 32,
     barcode: "07394904271719",
     description: "MARGARINA PRIMOR 1KG",
     quantity: 1,
@@ -1185,7 +1185,7 @@ const products_2 = [
     total: 10.99,
   },
   {
-    index: 33,
+    position: 33,
     barcode: "07891242810549",
     description: "LAVA ROU UAU ROSAS E SEDUCAO 5L.",
     quantity: 1,
@@ -1194,7 +1194,7 @@ const products_2 = [
     total: 44.99,
   },
   {
-    index: 34,
+    position: 34,
     barcode: "07497534822184",
     description: "DESINF AZULIM ERVA DOCE 5L",
     quantity: 1,
@@ -1203,7 +1203,7 @@ const products_2 = [
     total: 21.9,
   },
   {
-    index: 35,
+    position: 35,
     barcode: "07891150062825",
     description: "LAVA ROU OMO LAVANDA 3L",
     quantity: 1,
@@ -1212,7 +1212,7 @@ const products_2 = [
     total: 34.99,
   },
   {
-    index: 36,
+    position: 36,
     barcode: "07896006413851",
     description: "PAPEL TOALHA SCALA 120 FLS",
     quantity: 1,
@@ -1221,7 +1221,7 @@ const products_2 = [
     total: 4.89,
   },
   {
-    index: 37,
+    position: 37,
     barcode: "07896042077505",
     description: "ESCORREDOR TALHER PLASUTIL VERM",
     quantity: 1,
@@ -1230,7 +1230,7 @@ const products_2 = [
     total: 7.65,
   },
   {
-    index: 38,
+    position: 38,
     barcode: "07891150059917",
     description: "SAB LUX SUAVE LIRIO AZUL 85G",
     quantity: 2,
@@ -1239,7 +1239,7 @@ const products_2 = [
     total: 3.98,
   },
   {
-    index: 39,
+    position: 39,
     barcode: "07896229943654",
     description: "REPAR PONTAS NATU HAIR OLEO RICINO",
     quantity: 1,
@@ -1248,7 +1248,7 @@ const products_2 = [
     total: 9.35,
   },
   {
-    index: 40,
+    position: 40,
     barcode: "07898658625934",
     description: "OLEO CAP NATUTRAT GEL VINAGRE MACA",
     quantity: 1,
@@ -1257,7 +1257,7 @@ const products_2 = [
     total: 19.99,
   },
   {
-    index: 41,
+    position: 41,
     barcode: "07891024181072",
     description: "SH DARLING CERAMIDAS 350ML",
     quantity: 1,
@@ -1266,7 +1266,7 @@ const products_2 = [
     total: 8.79,
   },
   {
-    index: 42,
+    position: 42,
     barcode: "07891024132005",
     description: "CR D COLGATE TR A ORIG 90G",
     quantity: 1,
@@ -1275,7 +1275,7 @@ const products_2 = [
     total: 4.69,
   },
   {
-    index: 43,
+    position: 43,
     barcode: "07891150059900",
     description: "SAB LUX SUAVE ORQUIDEA NEGRA 85G",
     quantity: 1,
@@ -1284,7 +1284,7 @@ const products_2 = [
     total: 1.99,
   },
   {
-    index: 44,
+    position: 44,
     barcode: "07896000722690",
     description: "CR TRAT NIELY GOLD NUT OLEO DE COCO",
     quantity: 1,
@@ -1293,7 +1293,7 @@ const products_2 = [
     total: 17.89,
   },
   {
-    index: 45,
+    position: 45,
     barcode: "07509546653143",
     description: "ESC DENTAL COLG COLORS 5X1",
     quantity: 1,
@@ -1302,7 +1302,7 @@ const products_2 = [
     total: 28.55,
   },
   {
-    index: 46,
+    position: 46,
     barcode: "07896005271964",
     description: "FERMENTO D BENTA FERMIX INST 10G",
     quantity: 1,
@@ -1311,7 +1311,7 @@ const products_2 = [
     total: 1.89,
   },
   {
-    index: 47,
+    position: 47,
     barcode: "07891132019724",
     description: "TEMP SAZON MARRON PFEIJAO SH 60G",
     quantity: 2,
@@ -1320,7 +1320,7 @@ const products_2 = [
     total: 12.98,
   },
   {
-    index: 48,
+    position: 48,
     barcode: "07896005271964",
     description: "FERMENTO D BENTA FERMIX INST 10G",
     quantity: 1,
@@ -1329,7 +1329,7 @@ const products_2 = [
     total: 1.89,
   },
   {
-    index: 49,
+    position: 49,
     barcode: "07896005279489",
     description: "FERMENTO D BENTA PO TRAD 100G",
     quantity: 1,
@@ -1338,7 +1338,7 @@ const products_2 = [
     total: 5.09,
   },
   {
-    index: 50,
+    position: 50,
     barcode: "07896259424116",
     description: "CR LEITE CULINARIO EMBARE 200G",
     quantity: 1,
@@ -1347,7 +1347,7 @@ const products_2 = [
     total: 1.99,
   },
   {
-    index: 51,
+    position: 51,
     barcode: "07891000065440",
     description: "LEITE COND NESTLE MOCA SEMI DES TP",
     quantity: 1,
@@ -1356,7 +1356,7 @@ const products_2 = [
     total: 8.59,
   },
   {
-    index: 52,
+    position: 52,
     barcode: "07891150059900",
     description: "SAB LUX SUAVE ORQUIDEA NEGRA 85G",
     quantity: 1,
@@ -1365,7 +1365,7 @@ const products_2 = [
     total: 1.99,
   },
   {
-    index: 53,
+    position: 53,
     barcode: "07898962229545",
     description: "ESP PIMENTA CALABRESA ALRAH 30G",
     quantity: 1,
@@ -1374,7 +1374,7 @@ const products_2 = [
     total: 4.25,
   },
   {
-    index: 54,
+    position: 54,
     barcode: "07898954999012",
     description: "F UVA VITORIA GRANDVALLE 500G",
     quantity: 1,
@@ -1383,7 +1383,7 @@ const products_2 = [
     total: 8.99,
   },
   {
-    index: 55,
+    position: 55,
     barcode: "07891167023017",
     description: "SARDINHA 88 OLEO 125G",
     quantity: 1,
@@ -1392,7 +1392,7 @@ const products_2 = [
     total: 5.05,
   },
   {
-    index: 56,
+    position: 56,
     barcode: "07891167023017",
     description: "SARDINHA 88 OLEO 125G",
     quantity: 1,
@@ -1401,7 +1401,7 @@ const products_2 = [
     total: 5.09,
   },
   {
-    index: 57,
+    position: 57,
     barcode: "07896945403296",
     description: "DOCE TAMBAU BANANA 500G",
     quantity: 1,
@@ -1410,7 +1410,7 @@ const products_2 = [
     total: 10.99,
   },
   {
-    index: 58,
+    position: 58,
     barcode: "07891000115787",
     description: "RACAO PGATO FRISKIES CORDEIRO 85G",
     quantity: 2,
@@ -1419,7 +1419,7 @@ const products_2 = [
     total: 5.38,
   },
   {
-    index: 59,
+    position: 59,
     barcode: "07891000118061",
     description: "RACAO PGATO FRISKIES PERU 85G",
     quantity: 1,
@@ -1428,7 +1428,7 @@ const products_2 = [
     total: 2.69,
   },
   {
-    index: 60,
+    position: 60,
     barcode: "07894000030470",
     description: "MAIONESE HELLMANNS SH 200G",
     quantity: 1,
@@ -1437,7 +1437,7 @@ const products_2 = [
     total: 4.89,
   },
   {
-    index: 61,
+    position: 61,
     barcode: "07894900011753",
     description: "REFRIG COCA COLA 1.5L",
     quantity: 1,
@@ -1446,7 +1446,7 @@ const products_2 = [
     total: 6.79,
   },
   {
-    index: 62,
+    position: 62,
     barcode: "07891991002646",
     description: "REFRIG GUARANA ANTARCTICA 600ML",
     quantity: 2,
@@ -1455,7 +1455,7 @@ const products_2 = [
     total: 7.98,
   },
   {
-    index: 63,
+    position: 63,
     barcode: "07898952139113",
     description: "CAJUINA BRASUCOS 500ML",
     quantity: 2,
@@ -1464,7 +1464,7 @@ const products_2 = [
     total: 13.18,
   },
   {
-    index: 64,
+    position: 64,
     barcode: "07896181712480",
     description: "CREME AMENDOIM DACOLONIA PACOCA 200",
     quantity: 1,
@@ -1473,7 +1473,7 @@ const products_2 = [
     total: 12.89,
   },
   {
-    index: 65,
+    position: 65,
     barcode: "07896036000717",
     description: "EXT TOMATE ELEFANTE PP 300G",
     quantity: 1,
@@ -1482,7 +1482,7 @@ const products_2 = [
     total: 7.79,
   },
   {
-    index: 66,
+    position: 66,
     barcode: "07891150060296",
     description: "SAB LUX SUAVE ROSAS FRANCESAS 125G",
     quantity: 2,
@@ -1491,7 +1491,7 @@ const products_2 = [
     total: 6.38,
   },
   {
-    index: 67,
+    position: 67,
     barcode: "07896045506040",
     description: "CERVEJA HEINEKEN 0.0 ALCOOL LN 330M",
     quantity: 2,
@@ -1500,7 +1500,7 @@ const products_2 = [
     total: 13.38,
   },
   {
-    index: 68,
+    position: 68,
     barcode: "07894650003787",
     description: "INSET BAYGON AER ACAO TOTAL 360ML",
     quantity: 1,
@@ -1509,7 +1509,7 @@ const products_2 = [
     total: 13.49,
   },
   {
-    index: 69,
+    position: 69,
     barcode: "07898617581745",
     description: "MAC LAM MARATA CARNE 74G",
     quantity: 2,
@@ -1518,7 +1518,7 @@ const products_2 = [
     total: 2.7,
   },
   {
-    index: 70,
+    position: 70,
     barcode: "07891000065440",
     description: "LEITE COND NESTLE MOCA SEMI DES TP",
     quantity: 1,
@@ -1527,7 +1527,7 @@ const products_2 = [
     total: 8.59,
   },
   {
-    index: 71,
+    position: 71,
     barcode: "07898617581769",
     description: "MAC LAM MARATA GAL CAIP 74G",
     quantity: 1,
@@ -1536,7 +1536,7 @@ const products_2 = [
     total: 1.35,
   },
   {
-    index: 72,
+    position: 72,
     barcode: "07899676510981",
     description: "ARROZ BCO TIA DORA T1 5KG",
     quantity: 1,
@@ -1545,7 +1545,7 @@ const products_2 = [
     total: 29.69,
   },
   {
-    index: 73,
+    position: 73,
     barcode: "07898994865643",
     description: "FAR MANDIOCA BRANCA MALU 1KG",
     quantity: 1,
@@ -1554,7 +1554,7 @@ const products_2 = [
     total: 10.19,
   },
   {
-    index: 74,
+    position: 74,
     barcode: "07898935659010",
     description: "ACUC CRISTAL CAUAXI 1KG",
     quantity: 2,
@@ -1563,7 +1563,7 @@ const products_2 = [
     total: 8.78,
   },
   {
-    index: 75,
+    position: 75,
     barcode: "07898274440065",
     description: "FEIJAO CARIOCA IDEAL T1 1KG",
     quantity: 1,
@@ -1572,7 +1572,7 @@ const products_2 = [
     total: 5.69,
   },
   {
-    index: 76,
+    position: 76,
     barcode: "07898286203122",
     description: "CAFE MARATA SOLUV SH 100G",
     quantity: 1,
@@ -1581,7 +1581,7 @@ const products_2 = [
     total: 10.89,
   },
   {
-    index: 77,
+    position: 77,
     barcode: "07898286203122",
     description: "CAFE MARATA SOLUV SH 100G",
     quantity: 1,
@@ -1590,7 +1590,7 @@ const products_2 = [
     total: 10.89,
   },
   {
-    index: 78,
+    position: 78,
     barcode: "07896327501251",
     description: "MIST BOLO APTI ABACAXI 400G",
     quantity: 1,
@@ -1599,7 +1599,7 @@ const products_2 = [
     total: 9.29,
   },
   {
-    index: 79,
+    position: 79,
     barcode: "07896327511342",
     description: "MIST BOLO APTI LARANJA 400G",
     quantity: 1,
@@ -1608,7 +1608,7 @@ const products_2 = [
     total: 5.29,
   },
   {
-    index: 80,
+    position: 80,
     barcode: "07896259424116",
     description: "CR LEITE CULINARIO EMBARE 200G",
     quantity: 1,
@@ -1617,7 +1617,7 @@ const products_2 = [
     total: 1.99,
   },
   {
-    index: 81,
+    position: 81,
     barcode: "07898962560020",
     description: "AGUA COCO PARAISO 1L",
     quantity: 1,
@@ -1626,7 +1626,7 @@ const products_2 = [
     total: 19.67,
   },
   {
-    index: 82,
+    position: 82,
     barcode: "07898043915039",
     description: "SORV FROSTY LEITINHO C ACAI 1.5L",
     quantity: 1,
@@ -1635,7 +1635,7 @@ const products_2 = [
     total: 25.99,
   },
   {
-    index: 83,
+    position: 83,
     barcode: "07898280080149",
     description: "SAL REFINADD UNIOURO 1KG",
     quantity: 1,
@@ -1644,7 +1644,7 @@ const products_2 = [
     total: 1.29,
   },
   {
-    index: 84,
+    position: 84,
     barcode: "07898046870205",
     description: "BEBIDA LACT LONGA BANMACCE BL 200G",
     quantity: 1,
@@ -1653,7 +1653,7 @@ const products_2 = [
     total: 1.49,
   },
   {
-    index: 85,
+    position: 85,
     barcode: "07896046870144",
     description: "BEBIDA LACT LONGA AMEIXA LIGHT BL20",
     quantity: 1,
@@ -1662,7 +1662,7 @@ const products_2 = [
     total: 1.49,
   },
   {
-    index: 86,
+    position: 86,
     barcode: "07894900010015",
     description: "BEBIDA COCA COLA LT 350ML",
     quantity: 1,
@@ -1671,7 +1671,7 @@ const products_2 = [
     total: 3.59,
   },
   {
-    index: 87,
+    position: 87,
     barcode: "07000005174891",
     description: "PAO DE FORMA INTEG 36 MASSA E FORM",
     quantity: 1,
@@ -1682,7 +1682,7 @@ const products_2 = [
 ];
 
 interface Product {
-  index: number;
+  position: number;
   barcode: string;
   description: string;
   quantity: number;
@@ -1709,7 +1709,7 @@ const insertReceipt = (products: Product[], date: Date, total: number, discount:
     if (reciept.id)
       await prisma.productReciept.createManyAndReturn({
         data: products.map((prod) => ({
-          index: prod.index,
+          position: prod.position,
           barcode: prod.barcode,
           description: prod.description,
           quantity: prod.quantity,

@@ -3,7 +3,7 @@ import { Reciept } from "./Reciept";
 
 export class ProductReciept {
   id: string;
-  index: number;
+  position: number;
   quantity: number;
   price: number;
   total: number;
@@ -14,7 +14,7 @@ export class ProductReciept {
 
   constructor(
     id: string,
-    index: number,
+    position: number,
     quantity: number,
     price: number,
     total: number,
@@ -24,7 +24,7 @@ export class ProductReciept {
     product?: Record<string, any>
   ) {
     this.id = id;
-    this.index = index;
+    this.position = position;
     this.quantity = quantity;
     this.price = price;
     this.total = total;
@@ -37,7 +37,7 @@ export class ProductReciept {
   static parse(json: Record<string, any>) {
     const {
       id,
-      index,
+      position,
       quantity,
       price,
       total,
@@ -46,8 +46,8 @@ export class ProductReciept {
       receipt,
       product,
     } = json;
-    if (typeof index !== "number" && Number.isNaN(Number(index)))
-      throw new Error("O campo index é obrigatório");
+    if (typeof position !== "number" && Number.isNaN(Number(position)))
+      throw new Error("O campo position é obrigatório");
     if (typeof quantity !== "number" && Number.isNaN(Number(quantity)))
       throw new Error("O campo quantity é obrigatório");
     if (typeof price !== "number" && Number.isNaN(Number(price)))
@@ -60,7 +60,7 @@ export class ProductReciept {
     if (!product_id) throw new Error("O campo product_id é obrigatório");
     return new ProductReciept(
       id,
-      index,
+      position,
       quantity,
       price,
       total,
@@ -74,7 +74,7 @@ export class ProductReciept {
   toEntity() {
     const json = {
       id: this.id,
-      index: this.index,
+      position: this.position,
       quantity: this.quantity,
       price: this.price,
       total: this.total,
