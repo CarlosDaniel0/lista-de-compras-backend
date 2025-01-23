@@ -72,7 +72,7 @@ router.get("/:id/products", async (req, res) => {
 
   try {
     const { id: list_id } = req.params;
-    const products = await prisma.productList.findMany({ where: { list_id } });
+    const products = await prisma.productList.findMany({ where: { list_id }, include: { product: true } });
     res.send({ status: true, data: { products } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
@@ -88,7 +88,7 @@ router.post("/:id/products", async (req, res) => {
       Object.assign(e, { list_id })
     );
     const data = content.map(ProductList.parse).map((e) => e.toEntity());
-    const product = await prisma.productList.createMany({ data });
+    const product = await prisma.productList.createManyAndReturn({ data });
     res.send({ status: true, message: 'Produto cadatrado com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
@@ -114,7 +114,7 @@ router.put("/:id/products/:id_product", async (req, res) => {
     const { id: list_id, id_product: id } = req.params;
     const data = ProductList.parse(req.body).toEntity()
     const product = await prisma.productList.update({ data, where: { id, list_id }})
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto atualizado com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -126,7 +126,7 @@ router.delete("/:id/products/:id_product", async (req, res) => {
   try {
     const { id: list_id, id_product: id } = req.params;
     const product = await prisma.productList.delete({ where: { id, list_id }})
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto removido com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }

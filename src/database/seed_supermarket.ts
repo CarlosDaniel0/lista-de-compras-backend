@@ -1159,7 +1159,7 @@ const insertSupermarket = async () => {
     });
 
     if (supermarket.id)
-      await prisma.productSupermarket.createMany({
+      await prisma.productSupermarket.createManyAndReturn({
         data: products.map((prod) => ({
           ...prod,
           supermarket_id: supermarket.id,

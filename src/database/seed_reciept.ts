@@ -1707,7 +1707,7 @@ const insertReceipt = (products: Product[], date: Date, total: number, discount:
     });
 
     if (reciept.id)
-      await prisma.productReciept.createMany({
+      await prisma.productReciept.createManyAndReturn({
         data: products.map((prod) => ({
           index: prod.index,
           barcode: prod.barcode,

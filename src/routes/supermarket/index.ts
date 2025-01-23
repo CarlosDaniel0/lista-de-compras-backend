@@ -93,8 +93,29 @@ router.post("/:id/products", async (req, res) => {
       (item) => Object.assign(item, { supermarket_id })
     );
     const data = content.map(ProductSupermarket.parse).map((e) => e.toEntity());
-    const products = await prisma.productSupermarket.createMany({ data });
+    const products = await prisma.productSupermarket.createManyAndReturn({ data });
     res.send({ status: true, message: 'Produto cadatrado com sucesso!', data: { products } });
+  } catch (e: any) {
+    res.send(databaseErrorResponse(e?.message ?? ""));
+  }
+})
+
+router.get("/:id/products/:id_product", async (req, res) => {
+  const prisma = new PrismaClient({ adapter });
+
+  try {
+    const { id: supermarket_id, id_product: id } = req.params;
+    const product = await prisma.productSupermarket.findFirst({
+      where: { supermarket_id, id },
+    });
+    const rest = product ? { data: { product } } : {};
+    res.send({
+      status: true,
+      message: product
+        ? "Produto encontrado na base de dados"
+        : "Produto não encontrado na base de dados",
+      ...rest,
+    });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -107,7 +128,7 @@ router.put("/:id/products/:id_product", async (req, res) => {
     const { id: supermarket_id, id_product: id } = req.params;
     const data = ProductSupermarket.parse(req.body).toEntity()
     const product = await prisma.productSupermarket.update({ data, where: { id, supermarket_id }})
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto atualizado com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
@@ -119,7 +140,7 @@ router.delete("/:id/products/:id_product", async (req, res) => {
   try {
     const { id: supermarket_id, id_product: id } = req.params;
     const product = await prisma.productSupermarket.delete({ where: { id, supermarket_id }})
-    res.send({ status: true, data: { product } });
+    res.send({ status: true, message: 'Produto removido com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }

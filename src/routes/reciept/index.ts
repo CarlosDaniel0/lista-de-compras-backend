@@ -75,7 +75,7 @@ router.get("/:id/products", async (req, res) => {
 
   try {
     const { id: receipt_id } = req.params; 
-    const products = await prisma.productReciept.findMany({ where: { receipt_id }});
+    const products = await prisma.productReciept.findMany({ where: { receipt_id }, include: { product: true }});
     res.send({ status: true, data: { products } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
@@ -91,7 +91,7 @@ router.post("/:id/products", async (req, res) => {
       Object.assign(e, { receipt_id })
     );
     const data = content.map(ProductReciept.parse).map((e) => e.toEntity());
-    const product = await prisma.productReciept.createMany({ data });
+    const product = await prisma.productReciept.createManyAndReturn({ data });
     res.send({ status: true, message: 'Produto cadastrado com sucesso!', data: { product } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
