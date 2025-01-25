@@ -7,6 +7,7 @@ export class ProductReciept {
   quantity: number;
   price: number;
   total: number;
+  discount: number = 0;
   receipt_id: string;
   product_id: string;
   receipt?: Reciept;
@@ -18,6 +19,7 @@ export class ProductReciept {
     quantity: number,
     price: number,
     total: number,
+    discount: number,
     receipt_id: string,
     product_id: string,
     receipt?: Record<string, any>,
@@ -28,6 +30,7 @@ export class ProductReciept {
     this.quantity = quantity;
     this.price = price;
     this.total = total;
+    if (discount) this.discount = discount;
     this.receipt_id = receipt_id;
     this.product_id = product_id;
     if (receipt) this.receipt = Reciept.parse(receipt);
@@ -41,6 +44,7 @@ export class ProductReciept {
       quantity,
       price,
       total,
+      discount,
       receipt_id,
       product_id,
       receipt,
@@ -64,6 +68,7 @@ export class ProductReciept {
       quantity,
       price,
       total,
+      discount,
       receipt_id,
       product_id,
       receipt,
@@ -78,6 +83,7 @@ export class ProductReciept {
       quantity: this.quantity,
       price: this.price,
       total: this.total,
+      discount: this.discount,
       receipt_id: this.receipt_id,
       product_id: this.product_id
     };

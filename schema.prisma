@@ -24,7 +24,7 @@ model Wholesale {
   min_quantity Decimal            @db.Decimal(12, 4)
   price        Decimal            @db.Decimal(10, 4)
   product_id   String             @unique
-  product      ProductSupermarket @relation(fields: [product_id], references: [id])
+  product      ProductSupermarket @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
 
 model ProductSupermarket {
@@ -39,7 +39,7 @@ model ProductSupermarket {
   wholesale        Wholesale?
   products_reciept ProductReciept[]
   products_list    ProductList[]
-  supermarket      Supermarket      @relation(fields: [supermarket_id], references: [id])
+  supermarket      Supermarket      @relation(fields: [supermarket_id], references: [id], onDelete: Cascade)
 }
 
 //   Lista
@@ -48,7 +48,7 @@ model List {
   name     String
   date     DateTime?     @default(now())
   user_id  String
-  user     User          @relation(fields: [user_id], references: [id])
+  user     User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
   products ProductList[]
 }
 
@@ -60,9 +60,9 @@ model ProductList {
   list_id        String
   product_id     String?
   supermarket_id String?
-  product        ProductSupermarket? @relation(fields: [product_id], references: [id])
-  supermarket    Supermarket?        @relation(fields: [supermarket_id], references: [id])
-  list           List                @relation(fields: [list_id], references: [id])
+  product        ProductSupermarket? @relation(fields: [product_id], references: [id], onDelete: NoAction)
+  supermarket    Supermarket?        @relation(fields: [supermarket_id], references: [id], onDelete: NoAction)
+  list           List                @relation(fields: [list_id], references: [id], onDelete: Cascade)
 }
 
 //  Receita
@@ -75,20 +75,21 @@ model Reciept {
   supermarket_id String
   user_id        String
   products       ProductReciept[]
-  supermarket    Supermarket      @relation(fields: [supermarket_id], references: [id])
-  user           User             @relation(fields: [user_id], references: [id])
+  supermarket    Supermarket?     @relation(fields: [supermarket_id], references: [id], onDelete: NoAction)
+  user           User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model ProductReciept {
   id         String             @id @default(uuid())
-  position      Int
+  position   Int
   quantity   Decimal            @db.Decimal(12, 4)
   price      Decimal            @db.Decimal(10, 2)
   total      Decimal            @db.Decimal(10, 2)
+  discount   Decimal?           @db.Decimal(10, 2)
   receipt_id String
   product_id String
-  receipt    Reciept            @relation(fields: [receipt_id], references: [id])
-  product    ProductSupermarket @relation(fields: [product_id], references: [id])
+  receipt    Reciept            @relation(fields: [receipt_id], references: [id], onDelete: Cascade)
+  product    ProductSupermarket @relation(fields: [product_id], references: [id], onDelete: NoAction)
 }
 
 // User

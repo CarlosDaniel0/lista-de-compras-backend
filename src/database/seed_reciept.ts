@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import adapter from "./prisma";
+import { ProductSupermarket } from "../entities/ProductSupermarket";
 
 const products_1 = [
   {
@@ -45,6 +46,7 @@ const products_1 = [
     quantity: 0.665,
     unity: "KG",
     value: 10.99,
+    discount: 1.66,
     total: 7.31,
   },
   {
@@ -81,6 +83,7 @@ const products_1 = [
     quantity: 1.745,
     unity: "KG",
     value: 7.99,
+    discount: 1.74,
     total: 13.94,
   },
   {
@@ -162,6 +165,7 @@ const products_1 = [
     quantity: 1.85,
     unity: "KG",
     value: 3.99,
+    discount: 0.92,
     total: 7.38,
   },
   {
@@ -207,6 +211,7 @@ const products_1 = [
     quantity: 0.38,
     unity: "KG",
     value: 5.99,
+    discount: 0.36,
     total: 2.28,
   },
   {
@@ -1028,7 +1033,7 @@ const products_2 = [
     description: "V CEBOLA COMUN KG",
     quantity: 1.695,
     unity: "KG",
-    value: 2.95,
+    value: 2.99,
     total: 5.07,
   },
   {
@@ -1091,7 +1096,7 @@ const products_2 = [
     description: "F KIWI IMPORTADO KG",
     quantity: 0.35,
     unity: "KG",
-    value: 27.39,
+    value: 27.99,
     total: 9.8,
   },
   {
@@ -1596,7 +1601,7 @@ const products_2 = [
     quantity: 1,
     unity: "UN",
     value: 5.29,
-    total: 9.29,
+    total: 5.29,
   },
   {
     position: 79,
@@ -1689,43 +1694,90 @@ interface Product {
   unity: string;
   value: number;
   total: number;
+  discount?: number;
 }
 
-const insertReceipt = (products: Product[], date: Date, total: number, discount: number) => async () => {
-  const prisma = new PrismaClient({ adapter });
+const insertReceipt =
+  async (
+    name: string,
+    products: Product[],
+    date: Date,
+    total: number,
+    discount: number
+  ) => {
+    const prisma = new PrismaClient({ adapter });
 
-  try {
-    const reciept = await prisma.reciept.create({
-      data: {
-        name: `Comprovante ${date.toLocaleString().substring(0, 10)}`,
-        user_id: "sadasdasd",
-        supermarket_id: "08957708-ee88-43a5-87e2-350acdb325e8",
-        total,
-        discount,
-        date: date,
-      },
-    });
-
-    if (reciept.id)
-      await prisma.productReciept.createManyAndReturn({
-        data: products.map((prod) => ({
-          position: prod.position,
-          barcode: prod.barcode,
-          description: prod.description,
-          quantity: prod.quantity,
-          price: prod.value,
-          unity: prod.unity,
-          total: prod.total,
-          receipt_id: reciept.id,
-          product_id: ''
-        })),
+    try {
+      const supermarket = await prisma.supermarket.findFirst({
+        where: { name: { contains: "Mateus" } },
+        include: { products: true },
       });
-  } catch (e: any) {
-    console.log(e.message);
-  }
-};
+      console.log(supermarket)
+      const prods = products.filter((item) =>
+        !supermarket?.products?.some((prod) => prod?.barcode == item?.barcode)
+      );
 
-export default {
-  insertReceipt1: insertReceipt(products_1, new Date('2024-10-15 00:00:00'), 1351.28, 4.70),
-  insertReceipt2: insertReceipt(products_2, new Date('2024-11-10 00:00:00'), 1032.05, 0),
+      console.log(prods.length)
+      const reciept = await prisma.reciept.create({
+        data: {
+          name,
+          user_id: "25bae2c4-8bd6-4b25-8d00-50c75273a7ad",
+          supermarket_id: supermarket!.id,
+          total,
+          discount,
+          date: date,
+        },
+      });
+
+      if (reciept.id) {
+        const supermarketProducts = await prisma.productSupermarket.createManyAndReturn({
+          data: prods.map(item => ({
+            category: '',
+            description: item.description,
+            last_update: new Date(),
+            price: item.value,
+            supermarket_id: supermarket?.id,
+            unity: item.unity,
+            barcode: item.barcode
+          }) as ProductSupermarket)
+        })
+
+        const recipetProducts = products.map(prod => {
+          const item = supermarketProducts.concat(supermarket?.products ?? []).find(p => p.barcode === prod.barcode)
+          return ({ ...prod, product_id: item?.id, supermarket_id: supermarket?.id })
+        })
+        console.log(recipetProducts.length)
+        const r = await prisma.productReciept.createManyAndReturn({
+          data: recipetProducts.map((prod) => ({
+            position: prod.position!,
+            quantity: prod.quantity!,
+            price: prod.value!,
+            total: prod.total!,
+            discount: prod?.discount ?? 0,
+            receipt_id: reciept.id!,
+            product_id: prod.product_id!
+          })),
+        });
+        console.log(r.length)
+      }
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+
+export const insertReciepts = async () => {
+  await insertReceipt(
+    "Comprovante 15/10/2024",
+    products_1,
+    new Date("2024-10-15 00:00:00"),
+    1351.28,
+    4.67
+  )
+  await insertReceipt(
+    "Comprovante 10/11/2024",
+    products_2,
+    new Date("2024-11-10 00:00:00"),
+    1032.05,
+    0
+  )
 };
