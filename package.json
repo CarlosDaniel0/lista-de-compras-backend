@@ -12,7 +12,7 @@
     "express": "^4.21.2",
     "jwt-decode": "^4.0.0",
     "pg": "^8.13.1",
-    "prisma": "^6.1.0",
+    "prisma": "^6.2.1",
     "tsc-watch": "^6.2.1",
     "typescript": "^5.7.2"
   },

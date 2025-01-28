@@ -87,9 +87,9 @@ model ProductReciept {
   total      Decimal            @db.Decimal(10, 2)
   discount   Decimal?           @db.Decimal(10, 2)
   receipt_id String
-  product_id String
+  product_id String?
   receipt    Reciept            @relation(fields: [receipt_id], references: [id], onDelete: Cascade)
-  product    ProductSupermarket @relation(fields: [product_id], references: [id], onDelete: NoAction)
+  product    ProductSupermarket? @relation(fields: [product_id], references: [id], onDelete: SetNull)
 }
 
 // User

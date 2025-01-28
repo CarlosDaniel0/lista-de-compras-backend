@@ -20,3 +20,9 @@ export const getIPv4 = () => {
 
   return Object.values(results)[0]
 };
+
+export const aggregateByKey = <T,>(arr: T[], field: keyof T) => {
+  const map = new Map<string, any>()
+  arr.forEach(item => map.set(String(item[field]), item))
+  return Array.from(map.values()) as T[]
+}
