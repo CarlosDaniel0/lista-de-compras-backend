@@ -1723,26 +1723,26 @@ const insertReceipt = async (
       barcode: prod.barcode,
     }));
 
-    const prods = aggregateByKey(supermarket?.products ?? [], "barcode").map(
-      (prod) => {
+    const prods = aggregateByKey(supermarket?.products ?? [], "barcode")
+      .map((prod) => {
         const item = newProducts.find((p) => p.barcode === prod.barcode);
         if (item)
           return {
-            ...item,
+            ...prod,
             category: item.category,
             price: item.price,
             unity: item.unity,
             last_update: date,
           };
-        return prod;
-      }
-    );
+        return undefined;
+      })
+      .filter((prod) => typeof prod === 'object');
 
     console.log(prods.length);
     const reciept = await prisma.reciept.create({
       data: {
         name,
-        user_id: "8dd4a16a-b1d7-4b76-b03f-2106283b85f6",
+        user_id: "6a5c8729-62e4-4d76-8ccb-17152ab2af09",
         supermarket_id: supermarket!.id,
         total,
         discount,
@@ -1751,18 +1751,23 @@ const insertReceipt = async (
     });
 
     if (reciept.id) {
-      await prisma.productSupermarket.deleteMany({
-        where: { supermarket_id: id },
-      });
-      const supermarketProducts =
-        await prisma.productSupermarket.createManyAndReturn({
-          data: prods
-            .concat(
-              newProducts.filter(
-                (prod) => !prods.some((p) => p.barcode === prod.barcode)
-              )
-            )
-            .sort((a, b) => a.description.localeCompare(b.description)),
+      const supermarketProducts = await prisma
+        .$transaction(
+          prods.map((prod) =>
+            prisma.productSupermarket.update({
+              data: prod,
+              where: { id: prod.id },
+            })
+          )
+        )
+        .then(async (res) => {
+          const insertedProducts =
+            await prisma.productSupermarket.createManyAndReturn({
+              data: newProducts.filter(
+                (prod) => !res.some((p) => p.barcode === prod.barcode)
+              ),
+            });
+          return res.concat(insertedProducts);
         });
 
       const recipetProducts = products.map((prod) => {
