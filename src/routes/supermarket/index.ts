@@ -146,7 +146,7 @@ router.delete("/:id/products/:id_product", async (req, res) => {
   }
 })
 
-router.get("/:id/products/:barcode", async (req, res) => {
+router.get("/:id/products/barcode/:barcode", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
 
   try {
@@ -156,7 +156,7 @@ router.get("/:id/products/:barcode", async (req, res) => {
     });
     const rest = product ? { data: { product } } : {};
     res.send({
-      status: true,
+      status: !!product,
       message: product
         ? "Produto encontrado na base de dados"
         : "Produto não encontrado na base de dados",
