@@ -211,7 +211,7 @@ const products_1 = [
     quantity: 0.38,
     unity: "KG",
     price: 5.99,
-    discount: 0.36,
+    discount: 0.38,
     total: 2.28,
   },
   {
@@ -1995,7 +1995,7 @@ const products_3 = [
   },
   {
     position: 35,
-    barcode: "02900000016323",
+    barcode: "02900000038721",
     description: "V CEBOLA COMUM KG",
     quantity: 2.695,
     unity: "KG",
@@ -2528,7 +2528,7 @@ const insertReceipt = async (
     const reciept = await prisma.reciept.create({
       data: {
         name,
-        user_id: "a8cbcb34-c5a7-4169-b9b4-74f55a2bf6a4",
+        user_id: "25263040-cf01-4bb4-bd14-43a616f9d280",
         supermarket_id: supermarket!.id,
         total,
         discount,
