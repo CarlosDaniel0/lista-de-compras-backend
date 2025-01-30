@@ -6,12 +6,15 @@ import { Reciept } from "../../entities/Reciept";
 import { ProductReciept } from "../../entities/ProductReciept";
 const router = express.Router();
 
-router.get("/", async (_, res) => {
+router.get("/", async (req, res) => {
   const prisma = new PrismaClient({ adapter });
+  const { u: user_id } = req.query
 
   try {
-    const reciepts = await prisma.reciept.findMany({});
-    res.send({ status: true, data: { reciepts } });
+    const reciepts = user_id ? await prisma.reciept.findMany({
+      where: { user_id: String(user_id) }
+    }) : null;
+    res.send({ status: !!user_id, message: !user_id ? 'O parâmetro "u" é obrigatório na requisição' : '', data: { reciepts } });
   } catch (e: any) {
     res.send(databaseErrorResponse(e?.message ?? ""));
   }
