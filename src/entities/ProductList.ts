@@ -39,13 +39,13 @@ export class ProductList {
   }
 
   static parse(json: Record<string, any>) {
-    const { id, description, unity, quantity, list_id, supermarket_id, product_id, list, product, supermarket } = json;
+    const { id, description, unity, quantity, list_id, product_id, supermarket_id, list, product, supermarket } = json;
     if (!description) throw new Error("O campo description é obrigatório");
     if (!unity) throw new Error("O campo unity é obrigatório");
     if (typeof quantity !== "number" && Number.isNaN(Number(quantity)))
       throw new Error("O campo quantity é obrigatório");
     if (!list_id) throw new Error("O campo list_id é obrigatório");
-    return new ProductList(id, description, unity, quantity, list_id, supermarket_id, product_id, list, product, supermarket);
+    return new ProductList(id, description, unity, quantity, list_id, product_id, supermarket_id, list, product, supermarket);
   }
 
   toEntity() {
