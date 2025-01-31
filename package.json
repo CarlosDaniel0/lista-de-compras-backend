@@ -6,7 +6,7 @@
     "dev": "yarn copy-files && tsc-watch --onSuccess \"node ./dist/src/server.js\""
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^6.1.0",
+    "@prisma/adapter-pg": "^6.3.0",
     "@prisma/client": "^6.3.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
@@ -14,12 +14,12 @@
     "pg": "^8.13.1",
     "prisma": "^6.3.0",
     "tsc-watch": "^6.2.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/pg": "^8.11.10",
+    "@types/pg": "^8.11.11",
     "@types/serve-favicon": "^2.5.7",
     "copyfiles": "^2.4.1",
     "rimraf": "^6.0.1"

@@ -14,12 +14,12 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
-"@prisma/adapter-pg@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@prisma/adapter-pg/-/adapter-pg-6.1.0.tgz#0fac96919e93dc675783f588ce4e77f4085a06c4"
-  integrity sha512-3nBoQ74MRzFosXtLni6kR6KOuX1jzAUiApPFgA47/2gaEucIxhI+eOd/PPGv7jm8oSCfcDeAHA0mEa1S+nE1jw==
+"@prisma/adapter-pg@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@prisma/adapter-pg/-/adapter-pg-6.3.0.tgz#2120bd73bfa311aacede13a954984b770c59be57"
+  integrity sha512-xkA3HvA/YtE0Nd/wuVr6CJoRBK2mrdRAdyPEmY8+S2/pFE3nq1ri3vt4YEyPkRoy0/WSrdrufkg85C0nrYPDJg==
   dependencies:
-    "@prisma/driver-adapter-utils" "6.1.0"
+    "@prisma/driver-adapter-utils" "6.3.0"
     postgres-array "3.0.2"
 
 "@prisma/client@^6.3.0":
@@ -27,22 +27,17 @@
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-6.3.0.tgz#21cb91be237fa84f03fd2376e599567aea50fc6e"
   integrity sha512-BY3Fi28PUSk447Bpv22LhZp4HgNPo7NsEN+EteM1CLDnLjig5863jpW+3c3HHLFmml+nB/eJv1CjSriFZ8z7Cg==
 
-"@prisma/debug@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-6.1.0.tgz#a27a1d144f72a3bc95061ecb0255e7554d9d59ec"
-  integrity sha512-0himsvcM4DGBTtvXkd2Tggv6sl2JyUYLzEGXXleFY+7Kp6rZeSS3hiTW9mwtUlXrwYbJP6pwlVNB7jYElrjWUg==
-
 "@prisma/debug@6.3.0":
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/@prisma/debug/-/debug-6.3.0.tgz#8062ebb61f06f097222a5a2aa99dd301bce3368e"
   integrity sha512-m1lQv//0Rc5RG8TBpNUuLCxC35Ghi5XfpPmL83Gh04/GICHD2J5H2ndMlaljrUNaQDF9dOxIuFAYP1rE9wkXkg==
 
-"@prisma/driver-adapter-utils@6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@prisma/driver-adapter-utils/-/driver-adapter-utils-6.1.0.tgz#19c39ff0c247e22b1c243dab0a1035e39eb721c2"
-  integrity sha512-+4MefY+kjWDRRbC986A9X+JM4Dqc/8jqBbbiqmOwtFAD2Ttf87WeBSO2Ef6/rUqqhGQE8YHl86yCik8CF+QlEQ==
+"@prisma/driver-adapter-utils@6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@prisma/driver-adapter-utils/-/driver-adapter-utils-6.3.0.tgz#7bedf05a2cb7b57d7dccbbfaa1779b4efe440d41"
+  integrity sha512-6qs9kLqRGsqDp+rsIJIUYfWX0BSRYMeOU/sKxZsCWsElchsz6Majc1rMxeWdDOKQvPrgtmKACwKwTodgoyph6g==
   dependencies:
-    "@prisma/debug" "6.1.0"
+    "@prisma/debug" "6.3.0"
 
 "@prisma/engines-version@6.3.0-17.acc0b9dd43eb689cbd20c9470515d719db10d0b0":
   version "6.3.0-17.acc0b9dd43eb689cbd20c9470515d719db10d0b0"
@@ -134,10 +129,10 @@
   dependencies:
     undici-types "~6.20.0"
 
-"@types/pg@^8.11.10":
-  version "8.11.10"
-  resolved "https://registry.yarnpkg.com/@types/pg/-/pg-8.11.10.tgz#b8fb2b2b759d452fe3ec182beadd382563b63291"
-  integrity sha512-LczQUW4dbOQzsH2RQ5qoeJ6qJPdrcM/DcMLoqWQkMLMsq83J5lAX3LXjdkWdpscFy67JSOWDnh7Ny/sPFykmkg==
+"@types/pg@^8.11.11":
+  version "8.11.11"
+  resolved "https://registry.yarnpkg.com/@types/pg/-/pg-8.11.11.tgz#3bdce0580e521a62a62339a53d110458d9eae6df"
+  integrity sha512-kGT1qKM8wJQ5qlawUrEkXgvMSXoV213KfMGXcwfDwUIfUHXqXYXOfS1nE1LINRJVVVx5wCm70XnFlMHaIcQAfw==
   dependencies:
     "@types/node" "*"
     pg-protocol "*"
@@ -1287,10 +1282,10 @@ type-is@~1.6.18:
     media-typer "0.3.0"
     mime-types "~2.1.24"
 
-typescript@^5.7.2:
-  version "5.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.2.tgz#3169cf8c4c8a828cde53ba9ecb3d2b1d5dd67be6"
-  integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
+typescript@^5.7.3:
+  version "5.7.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.3.tgz#919b44a7dbb8583a9b856d162be24a54bf80073e"
+  integrity sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==
 
 undici-types@~6.20.0:
   version "6.20.0"
