@@ -264,7 +264,7 @@ const getProductsFromQRCode = async (text: string) => {
           }`
         )
     );
-  return [products ?? [], chave] as [ProductRecieptImport[], string];
+  return [products, chave] as [ProductRecieptImport[], string];
 };
 
 export const handleProducts = async (
@@ -293,6 +293,7 @@ export const handleProducts = async (
       chavenfe = chave;
       break;
   }
+  if (!products) products = []
   discount = sum(products, 'discount')
   return { products, chavenfe, discount, total: decimalSum(sum(products, 'total'), -discount)  };
 };
