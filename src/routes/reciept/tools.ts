@@ -5,6 +5,7 @@ import { RecieptImport } from "../../entities/RecieptJSON";
 import { Reciept } from "../../entities/Reciept";
 import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
 import * as cheerio from "cheerio";
+import axios from "axios";
 
 type ProductKeys = "position";
 const UFs = [
@@ -243,18 +244,8 @@ const extractProducts = async (res: Record<string, string>, uf: UF) => {
 const getProductsFromQRCode = async (text: string) => {
   const uf = extractUF(text);
   const [url, chave] = parseURL(text, uf);
-  const products = await fetch(url)
-    .then((res) => res.text())
-    .then((res) => {
-      let json = {};
-      try {
-        json = JSON.parse(res);
-      } catch (_) {
-        throw new Error(res);
-      }
-      return json;
-    })
-    .then((res) => extractProducts(res, uf))
+  const products = await axios.get(url)
+    .then((res) => extractProducts(res.data, uf))
     .catch(
       (e) =>
         new Error(
