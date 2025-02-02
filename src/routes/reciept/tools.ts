@@ -201,6 +201,7 @@ const extractProducts = async (res: Record<string, string>, uf: UF) => {
   const html = res?.abaProdutosServicosHtml ?? "";
   const $ = cheerio.load(html);
 
+  console.log(html)
   const paths = {
     PI: {
       position: "label:contains('Num.')",
