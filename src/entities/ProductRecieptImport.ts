@@ -16,7 +16,7 @@ export class ProductRecieptImport {
     this.unity = unity
     this.price = price
     this.discount = discount ?? 0
-    this.total = total
+    this.total = +(quantity * price).toFixed(2)
   }
 
   static parse(json: Record<string, any>) {
