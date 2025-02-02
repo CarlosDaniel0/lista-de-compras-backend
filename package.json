@@ -8,6 +8,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^6.3.0",
     "@prisma/client": "^6.3.0",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "jwt-decode": "^4.0.0",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jsdom": "^21.1.7",
     "@types/pg": "^8.11.11",
     "@types/serve-favicon": "^2.5.7",
     "copyfiles": "^2.4.1",

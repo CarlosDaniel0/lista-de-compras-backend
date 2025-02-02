@@ -18,7 +18,7 @@ export class Reciept {
   constructor(
     id: string,
     name: string,
-    date: string,
+    date: string | Date,
     total: number,
     discount: number,
     supermarket_id: string,
@@ -29,7 +29,7 @@ export class Reciept {
   ) {
     this.id = id;
     this.name = name;
-    this.date = new Date(date.substring(0, 10) + " 00:00:00");
+    this.date = new Date(date instanceof Date ? date.getTime() : date.substring(0, 10) + " 00:00:00");
     this.total = total;
     this.discount = discount;
     this.supermarket_id = supermarket_id;
@@ -43,7 +43,7 @@ export class Reciept {
     const { id, name, date, total, discount, supermarket_id, user_id, user, supermarket, products } = json;
     if (!name) 
       throw new Error("O campo name é obrigatório");
-    if (!date || !new Date(date.substring(0, 10) + " 00:00:00"))
+    if (!date || !new Date(date instanceof Date ? date.getTime() : date.substring(0, 10) + " 00:00:00"))
       throw new Error("O campo date é obrigatório e deve ser válido");
     if (typeof total !== "number" && Number.isNaN(Number(total)))
       throw new Error("O campo total é obrigatório");

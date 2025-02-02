@@ -1,4 +1,4 @@
-import { networkInterfaces } from "os"
+import { networkInterfaces } from "os";
 
 export const getIPv4 = () => {
   const nets = networkInterfaces();
@@ -18,11 +18,47 @@ export const getIPv4 = () => {
     }
   }
 
-  return Object.values(results)[0]
+  return Object.values(results)[0];
 };
 
-export const aggregateByKey = <T,>(arr: T[], field: keyof T) => {
-  const map = new Map<string, any>()
-  arr.forEach(item => map.set(String(item[field]), item))
-  return Array.from(map.values()) as T[]
+/**
+ * Somar valores decimais sem erro na precisão decimal
+ *
+ * Ex: (regular) 1.03 + 1.33 => 2.3600000000000003
+ *
+ * Ex: (função) decimalSum(1.03, 1.33) => 2.36
+ * @param numbers (n1, n2, nk...)
+ * @returns  sum
+ */
+export const decimalSum = (...numbers: number[]): number =>
+  numbers.reduce((sum, curr, i, arr) => {
+    if (i === arr.length) return sum;
+    const n1: number = !Number.isNaN(Number(sum ?? 0)) ? Number(sum ?? 0) : 0;
+    const n2: number = !Number.isNaN(Number(curr ?? 0)) ? Number(curr ?? 0) : 0;
+
+    const [intA, decA] =
+      n1 % 1 === 0 ? [String(n1), "0"] : String(n1).split(".");
+    const [intB, decB] =
+      n2 % 1 === 0 ? [String(n2), "0"] : String(n2).split(".");
+
+    if (decA === "0" && decB === "0") return n1 + n2;
+    const decimals = decA.length > decB.length ? decA.length : decB.length;
+    return (
+      (parseInt(intA + decA.padEnd(decimals, "0")) +
+        parseInt(intB + decB.padEnd(decimals, "0"))) /
+      Math.pow(10, decimals)
+    );
+  }, 0);
+
+export const sum = <T,>(arr: T[], field: keyof T) => {
+  return arr.reduce((tot, item) => decimalSum(tot, Number(item?.[field] ?? 0)), 0)
 }
+
+export const parseCurrencyToNumber = (value: string) =>
+  Number(value.replace(/\./g, "").replace(/,/g, "."));
+
+export const aggregateByKey = <T>(arr: T[], field: keyof T) => {
+  const map = new Map<string, any>();
+  arr.forEach((item) => map.set(String(item[field]), item));
+  return Array.from(map.values()) as T[];
+};
