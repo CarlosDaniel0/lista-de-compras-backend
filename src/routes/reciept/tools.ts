@@ -264,7 +264,7 @@ const getProductsFromQRCode = async (text: string) => {
           }`
         )
     );
-  return [products, chave] as [ProductRecieptImport[], string];
+  return [products ?? [], chave] as [ProductRecieptImport[], string];
 };
 
 export const handleProducts = async (
