@@ -1,6 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import adapter from "../../database/prisma";
-import { aggregateByKey, decimalSum, parseCurrencyToNumber, sum } from "../../utils";
+import {
+  aggregateByKey,
+  decimalSum,
+  parseCurrencyToNumber,
+  sum,
+} from "../../utils";
 import { RecieptImport } from "../../entities/RecieptJSON";
 import { Reciept } from "../../entities/Reciept";
 import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
@@ -43,7 +48,15 @@ export type CaptureType = "json" | "xml" | "txt" | "qrcode" | "ocr";
 export const handleImport = async (rec: RecieptImport) => {
   const prisma = new PrismaClient({ adapter });
 
-  const { supermarket_id: id, products, date, total, discount, name, user_id } = rec;
+  const {
+    supermarket_id: id,
+    products,
+    date,
+    total,
+    discount,
+    name,
+    user_id,
+  } = rec;
 
   const supermarket = await prisma.supermarket.findFirst({
     where: { id },
@@ -134,10 +147,12 @@ export const handleImport = async (rec: RecieptImport) => {
 
 const parseProductsFromTXT = (text: string) => {
   let index = 0;
-  const lines = text.split("\n")
-  const discounts = Object.fromEntries(lines
-    .filter(item => item.includes('Desconto'))
-    .map(item => (item.match(/(\d+)(?:\.(\d+))|(\d+)/g) ?? []).map(Number)))
+  const lines = text.split("\n");
+  const discounts = Object.fromEntries(
+    lines
+      .filter((item) => item.includes("Desconto"))
+      .map((item) => (item.match(/(\d+)(?:\.(\d+))|(\d+)/g) ?? []).map(Number))
+  );
   return lines
     .filter(
       (item) =>
@@ -159,12 +174,12 @@ const parseProductsFromTXT = (text: string) => {
           description: line?.[2],
         } as ProductRecieptImport);
       } else {
-        const discount = discounts[index + 1]
+        const discount = discounts[index + 1];
         acc[index].quantity = parseFloat(line![0].replace(/[^0-9.]/g, ""));
         acc[index].unity = line![0].replace(/[0-9.]/g, "");
         acc[index].price = parseFloat(line?.[1] ?? "0");
-        if (discount) acc[index].discount = discount
-        acc[index].total = +(acc[index].quantity * acc[index].price).toFixed(2);        
+        if (discount) acc[index].discount = discount;
+        acc[index].total = +(acc[index].quantity * acc[index].price).toFixed(2);
       }
       return acc;
     }, [] as ProductRecieptImport[]);
@@ -243,17 +258,15 @@ const extractProducts = async (res: Record<string, string>, uf: UF) => {
 
 const getProductsFromQRCode = async (text: string) => {
   const uf = extractUF(text);
+  console.log(text);
   const [url, chave] = parseURL(text, uf);
-  const products = await axios.get(url)
-    .then((res) => extractProducts(res.data, uf))
-    .catch(
-      (e) =>
-        new Error(
-          `Ocorreu um erro ao consultar o QRCode\n${
-            e instanceof Error ? e.message : ""
-          }`
-        )
-    );
+  console.log(url, chave);
+  const products = await axios.get(url).then((res) => {
+    console.log(res.data);
+    if (res.data) return extractProducts(res.data, uf);
+    return [];
+  });
+  console.log(products, chave)
   return [products, chave] as [ProductRecieptImport[], string];
 };
 
@@ -263,7 +276,7 @@ export const handleProducts = async (
 ) => {
   let products: ProductRecieptImport[] = [],
     chavenfe = "",
-    discount = 0, 
+    discount = 0,
     total = 0;
   switch (type) {
     case "json":
@@ -271,9 +284,9 @@ export const handleProducts = async (
         Array.isArray(file) ? file : (file as Record<string, any>).products
       ).map(ProductRecieptImport.parse);
       break;
-    case 'xml': // TODO: Implementar posteriormente (Sem exemplo atualmente)
-      products = []
-      break
+    case "xml": // TODO: Implementar posteriormente (Sem exemplo atualmente)
+      products = [];
+      break;
     case "txt":
       products = parseProductsFromTXT(file + "");
       break;
@@ -283,6 +296,11 @@ export const handleProducts = async (
       chavenfe = chave;
       break;
   }
-  discount = sum(products, 'discount')
-  return { products, chavenfe, discount, total: decimalSum(sum(products, 'total'), -discount)  };
+  discount = sum(products, "discount");
+  return {
+    products,
+    chavenfe,
+    discount,
+    total: decimalSum(sum(products, "total"), -discount),
+  };
 };
