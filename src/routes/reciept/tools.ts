@@ -195,7 +195,7 @@ const parseURL = (url: string, uf: UF) => {
       const search = new URLSearchParams();
       search.append("chave", chave);
       if (data && !Number.isNaN(Number(data))) search.append("data", data);
-      if (total && !Number.isNaN(Number(total))) search.append("total", total);
+      if (total && !Number.isNaN(Number(total) && total.length !== 44)) search.append("total", total);
 
       return [
         `https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`,
