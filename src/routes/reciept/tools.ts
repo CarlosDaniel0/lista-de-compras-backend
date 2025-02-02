@@ -195,10 +195,12 @@ const parseURL = (url: string, uf: UF) => {
       const search = new URLSearchParams();
       search.append("chave", chave);
       if (data && !Number.isNaN(Number(data))) search.append("data", data);
-      if (total && !Number.isNaN(Number(total) && total.length !== 44)) search.append("total", total);
+      if (total && !Number.isNaN(Number(total) && total.length !== 44))
+        search.append("total", total);
 
+      console.log(`https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`)
       return [
-        `https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`,
+        url,
         chave,
       ];
     default:
@@ -258,15 +260,10 @@ const extractProducts = async (res: Record<string, string>, uf: UF) => {
 
 const getProductsFromQRCode = async (text: string) => {
   const uf = extractUF(text);
-  console.log(text);
   const [url, chave] = parseURL(text, uf);
-  console.log(url, chave);
-  const products = await axios.get(url).then((res) => {
-    console.log(res.data);
-    if (res.data) return extractProducts(res.data, uf);
-    return [];
-  });
-  console.log(products, chave)
+  const products = await axios
+    .get(url)
+    .then((res) => extractProducts(res.data, uf));
   return [products, chave] as [ProductRecieptImport[], string];
 };
 
