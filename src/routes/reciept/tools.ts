@@ -163,7 +163,7 @@ const parseProductsFromTXT = (text: string) => {
         acc[index].unity = line![0].replace(/[0-9.]/g, "");
         acc[index].price = parseFloat(line?.[1] ?? "0");
         if (discount) acc[index].discount = discount
-        acc[index].total = discount ? decimalSum(parseFloat(line?.[2] ?? "0"), -discount) : parseFloat(line?.[2] ?? "0") ;        
+        acc[index].total = parseFloat(line?.[2] ?? "0") ;        
       }
       return acc;
     }, [] as ProductRecieptImport[]);
@@ -292,5 +292,5 @@ export const handleProducts = async (
       chavenfe = chave;
       break;
   }
-  return { products, chavenfe, discount: sum(products, 'discount'), total: sum(products, 'total')  };
+  return { products, chavenfe, discount: sum(products, 'discount'), total: decimalSum(sum(products, 'total'), -sum(products, 'discount'))  };
 };
