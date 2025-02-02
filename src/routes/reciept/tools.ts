@@ -197,13 +197,9 @@ const parseURL = (url: string, uf: UF) => {
       if (data && !Number.isNaN(Number(data))) search.append("data", data);
       if (total && !Number.isNaN(Number(total) && total.length !== 44))
         search.append("total", total);
-
-      const newURL = 'https://www.google.com.br'
-      // console.log(`https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`)
-      // console.log(url)
-      // console.log(newURL)
+      
       return [
-        newURL,
+        `https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`,
         chave,
       ];
     default:
@@ -219,7 +215,6 @@ const extractUF = (url: string) =>
   ).toUpperCase() as UF;
 
 const extractProducts = async (res: Record<string, string>, uf: UF) => {
-  console.log(res)
   const html = res?.abaProdutosServicosHtml ?? "";
   const $ = cheerio.load(html);
 
