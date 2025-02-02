@@ -46,7 +46,7 @@ router.post("/products/capture/:type", async (req, res) => {
       },
     });
   } catch (e: any) {
-    res.send(databaseErrorResponse(e?.message ?? ""));
+    res.send(databaseErrorResponse(e instanceof Error ? `${e.name}\n${e.message}\n${e.stack}`: ''));
   }
 });
 

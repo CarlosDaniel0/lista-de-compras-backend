@@ -201,7 +201,6 @@ const extractProducts = async (res: Record<string, string>, uf: UF) => {
   const html = res?.abaProdutosServicosHtml ?? "";
   const $ = cheerio.load(html);
 
-  console.log(html)
   const paths = {
     PI: {
       position: "label:contains('Num.')",
@@ -293,7 +292,6 @@ export const handleProducts = async (
       chavenfe = chave;
       break;
   }
-  if (!products) products = []
   discount = sum(products, 'discount')
   return { products, chavenfe, discount, total: decimalSum(sum(products, 'total'), -discount)  };
 };
