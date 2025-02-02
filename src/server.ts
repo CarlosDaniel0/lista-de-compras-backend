@@ -10,7 +10,7 @@ app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }));
 app.use(router)
 
-process.env['NODE_TLS_REJECT_UNAUTHORIZED']='0'
+// process.env['NODE_TLS_REJECT_UNAUTHORIZED']='0'
 app.listen(3001, () => {
   console.log(`Server running 🚀:
     http://${getIPv4()}:3001/`)
