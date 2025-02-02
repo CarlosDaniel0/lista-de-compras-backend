@@ -198,9 +198,12 @@ const parseURL = (url: string, uf: UF) => {
       if (total && !Number.isNaN(Number(total) && total.length !== 44))
         search.append("total", total);
 
+      const newURL = 'https://www.google.com.br'
       console.log(`https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`)
+      console.log(url)
+      console.log(newURL)
       return [
-        url,
+        newURL,
         chave,
       ];
     default:
