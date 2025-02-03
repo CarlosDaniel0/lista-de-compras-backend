@@ -261,8 +261,9 @@ const extractUF = (url: string) =>
 const getProductsFromQRCode = async (text: string) => {
   // TODO: realizar troca do proxy de forma automática posteriormente (comutador)
   // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
-  const proxy = process.env.PROXY ?? ''
-  const httpsAgent = new HttpsProxyAgent(proxy);
+  const proxy = process.env.PROXY
+  console.log(proxy)
+  const httpsAgent = new HttpsProxyAgent(proxy ?? '');
   const $ = axios.create({ httpsAgent });
   const uf = extractUF(text);
   const [url, chave] = parseURL(text, uf);
