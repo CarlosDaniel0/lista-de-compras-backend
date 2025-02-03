@@ -12,7 +12,6 @@ import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { DEBUG } from "../../utils/constants";
 
 type ProductKeys = "position";
 const UFs = [
@@ -211,15 +210,16 @@ const extractProducts = (res: Record<string, string> | string, uf: UF) => {
           $(path)
             .next()
             .toArray()
-            .map((x) => $(x).text()),
+            .map((x) => {
+              const v = $(x).text()
+              return ["price", "quantity"].includes(key) ? parseCurrencyToNumber(v) : key === "position" ? Number(v) : v
+            }),
         ])
         .reduce((acc, item, index, arr) => {
           const [key, values] = item as [ProductKeys, any[]];
           values.forEach((value, i) => {
             if (acc[i]) {
-              acc[i][key] = ["price", "quantity"].includes(key)
-                ? parseCurrencyToNumber(value)
-                : value;
+              acc[i][key] = value;
               if (arr.length - 1 === index)
                 acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
             } else acc.push({ [key]: value } as never);
@@ -262,16 +262,21 @@ const extractUF = (url: string) =>
 const getProductsFromQRCode = async (text: string) => {
   // TODO: realizar troca do proxy de forma automática posteriormente (comutador)
   // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
-  const proxy = process.env.PROXY
-  const httpsAgent = new HttpsProxyAgent(proxy ?? '', {
-    rejectUnauthorized: false,
-  });
-  const $ = axios.create({ httpsAgent });
-  const uf = extractUF(text);
-  const [url, chave] = parseURL(text, uf);
-  const res = await $.get(url);
-  const products = extractProducts(res.data, uf);
-  return [products, chave] as [ProductRecieptImport[], string];
+  try {
+    const proxy = process.env.PROXY;
+    const httpsAgent = new HttpsProxyAgent(proxy ?? "", {
+      rejectUnauthorized: false,
+    });
+    const $ = axios.create({ httpsAgent });
+    const uf = extractUF(text);
+    const [url, chave] = parseURL(text, uf);
+    const res = await $.get(url);
+    const products = extractProducts(res.data, uf);
+    return [products, chave] as [ProductRecieptImport[], string];
+  } catch (e) {
+    throw new Error(`Ocorreu um erro no proxy
+      Aguarde antes de tentar novamente`);
+  }
 };
 
 export const handleProducts = async (

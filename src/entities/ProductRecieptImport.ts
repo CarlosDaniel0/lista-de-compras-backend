@@ -5,10 +5,10 @@ export class ProductRecieptImport {
   quantity: number
   unity: string
   price: number
-  discount: number
   total: number
+  discount: number
 
-  constructor (position: number, barcode: string, description: string, quantity: number, unity: string, price: number, discount: number, total: number) {
+  constructor (position: number, barcode: string, description: string, quantity: number, unity: string, price: number, discount: number) {
     this.position = position
     this.barcode = barcode
     this.description = description
@@ -20,7 +20,7 @@ export class ProductRecieptImport {
   }
 
   static parse(json: Record<string, any>) {
-    const { position, barcode, description, quantity, unity, price, discount, total } = json
-    return new ProductRecieptImport(position, barcode, description, quantity, unity, price, discount, total)
+    const { position, barcode, description, quantity, unity, price, discount } = json
+    return new ProductRecieptImport(position, barcode, description, quantity, unity, price, discount)
   }
 }

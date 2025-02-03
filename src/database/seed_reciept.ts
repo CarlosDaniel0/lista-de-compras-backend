@@ -2528,7 +2528,7 @@ const insertReceipt = async (
     const reciept = await prisma.reciept.create({
       data: {
         name,
-        user_id: "a87c19e6-fbff-45f7-a226-1e4110fb2b42",
+        user_id: "8433163f-6f3b-4bb6-8f95-6bb49ca9e742",
         supermarket_id: supermarket!.id,
         total,
         discount,
