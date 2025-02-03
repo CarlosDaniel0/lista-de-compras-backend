@@ -12,6 +12,7 @@ import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { DEBUG } from "../../utils/constants";
 
 type ProductKeys = "position";
 const UFs = [
@@ -262,8 +263,9 @@ const getProductsFromQRCode = async (text: string) => {
   // TODO: realizar troca do proxy de forma automática posteriormente (comutador)
   // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
   const proxy = process.env.PROXY
-  console.log(proxy)
-  const httpsAgent = new HttpsProxyAgent(proxy ?? '');
+  const httpsAgent = new HttpsProxyAgent(proxy ?? '', {
+    rejectUnauthorized: false,
+  });
   const $ = axios.create({ httpsAgent });
   const uf = extractUF(text);
   const [url, chave] = parseURL(text, uf);
