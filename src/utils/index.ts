@@ -1,4 +1,9 @@
 import { networkInterfaces } from "os";
+import { DEBUG, MAX_REQUEST_TIMEOUT } from "./constants";
+import { format } from 'date-fns'
+import { ProxyScape, ProxyScapeResponse } from "./types";
+
+export type HTTPMethods = 'POST' | 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD'
 
 export const getIPv4 = () => {
   const nets = networkInterfaces();
@@ -20,6 +25,80 @@ export const getIPv4 = () => {
 
   return Object.values(results)[0];
 };
+
+const print =
+  () =>
+  (
+    type: 'req' | 'res',
+    message: string | Record<string, unknown>,
+    url: string = '',
+    method: HTTPMethods = 'GET'
+  ) => {
+    if (!DEBUG) return
+    const now = format(new Date(), 'dd/MM/yyyy, HH:mm:ss')
+    const header = `${url !== '' ? `\n${method}` : ''}:${
+      url !== '' ? `${url}\n` : ''
+    }`
+    console.log(
+      `${type === 'req' ? 'Requisição' : 'Resposta'}${' '.repeat(
+        5
+      )}${now}${header}`
+    )
+    if (!message) return
+    console.log(`Body: ${message}`)
+  }
+
+export const log = {
+  error: print(), // 'error'
+  info: print(), // 'info'
+  warn: print(), // 'warn'
+}
+
+export const request = async <T = never, K = unknown>(
+  url: string,
+  body?: K,
+  method?: HTTPMethods
+): Promise<T> => {
+  const controller = new AbortController()
+  setTimeout(() => controller.abort(), MAX_REQUEST_TIMEOUT)
+  log.info('req', body ? body : '', url, method)
+  return fetch(url, {
+    method: method ?? 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    body: body ? JSON.stringify(body) : undefined,
+    signal: controller.signal,
+  })
+    .then((res) => {
+      switch (res.status) {
+        case 401:
+          throw new Error('Usuário não autorizado')
+        case 404:
+          throw new Error('Rota não encontrada')
+        case 200:
+          return res.text()
+        default:
+          throw new Error(
+            `Ocorreu um erro inesperado: Status Code: ${res.status}`
+          )
+      }
+    })
+    .then((res) => {
+      let json = {}
+      try {
+        json = JSON.parse(res)
+      } catch (e) {
+        return res as T
+      }
+      log.info('res', json)
+      return json as T
+    })
+}
+
+export const getProxies = async () => {
+  const url = 'https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&country=br&proxy_format=protocolipport&format=json&timeout=20000'
+  const proxies = await request<ProxyScapeResponse>(url)
+  return proxies
+}
 
 /**
  * Somar valores decimais sem erro na precisão decimal

@@ -9,8 +9,9 @@ import {
 import { RecieptImport } from "../../entities/RecieptJSON";
 import { Reciept } from "../../entities/Reciept";
 import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
-import * as cheerio from "cheerio";
+import { HttpsProxyAgent } from "https-proxy-agent";
 import axios from "axios";
+import * as cheerio from "cheerio";
 
 type ProductKeys = "position";
 const UFs = [
@@ -185,6 +186,49 @@ const parseProductsFromTXT = (text: string) => {
     }, [] as ProductRecieptImport[]);
 };
 
+const extractProducts = (res: Record<string, string> | string, uf: UF) => {
+  const paths = {
+    PI: {
+      position: "label:contains('Num.')",
+      description: "label:contains('Descrição')",
+      barcode: "label:contains('Código EAN Comercial')",
+      unity: "label:contains('Unidade Tributável')", // ou contains('Unidade Comercial')
+      quantity: "label:contains('Quantidade Tributável')", // or contains('Qtd.')
+      price: "label:contains('Valor unitário de comercialização')", // or contains('Valor(R$)')
+      total: "$total",
+    },
+  };
+  switch (uf) {
+    case "PI":
+      const html =
+        (res as Record<string, string>)?.abaProdutosServicosHtml ?? "";
+      const $ = cheerio.load(html);
+      return Object.entries(paths[uf])
+        .filter(([, path]) => !path.includes("$"))
+        .map(([key, path]) => [
+          key,
+          $(path)
+            .next()
+            .toArray()
+            .map((x) => $(x).text()),
+        ])
+        .reduce((acc, item, index, arr) => {
+          const [key, values] = item as [ProductKeys, any[]];
+          values.forEach((value, i) => {
+            if (acc[i]) {
+              acc[i][key] = ["price", "quantity"].includes(key)
+                ? parseCurrencyToNumber(value)
+                : value;
+              if (arr.length - 1 === index)
+                acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
+            } else acc.push({ [key]: value } as never);
+          });
+          return acc;
+        }, [] as ProductRecieptImport[]);
+  }
+  return [];
+};
+
 const parseURL = (url: string, uf: UF) => {
   const parsedURL = new URL(url);
   switch (uf) {
@@ -214,70 +258,15 @@ const extractUF = (url: string) =>
     )?.[0] ?? ""
   ).toUpperCase() as UF;
 
-const extractProducts = async (res: Record<string, string>, uf: UF) => {
-  console.log(res)
-  const html = res?.abaProdutosServicosHtml ?? "";
-  const $ = cheerio.load(html);
-
-  const paths = {
-    PI: {
-      position: "label:contains('Num.')",
-      description: "label:contains('Descrição')",
-      barcode: "label:contains('Código EAN Comercial')",
-      unity: "label:contains('Unidade Tributável')", // ou contains('Unidade Comercial')
-      quantity: "label:contains('Quantidade Tributável')", // or contains('Qtd.')
-      price: "label:contains('Valor unitário de comercialização')", // or contains('Valor(R$)')
-      total: "$total",
-    },
-  };
-  switch (uf) {
-    case "PI":
-      return Object.entries(paths[uf])
-        .filter(([, path]) => !path.includes("$"))
-        .map(([key, path]) => [
-          key,
-          $(path)
-            .next()
-            .toArray()
-            .map((x) => $(x).text()),
-        ])
-        .reduce((acc, item, index, arr) => {
-          const [key, values] = item as [ProductKeys, any[]];
-          values.forEach((value, i) => {
-            if (acc[i]) {
-              acc[i][key] = ["price", "quantity"].includes(key)
-                ? parseCurrencyToNumber(value)
-                : value;
-              if (arr.length - 1 === index)
-                acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
-            } else acc.push({ [key]: value } as never);
-          });
-          return acc;
-        }, [] as ProductRecieptImport[]);
-  }
-  return [];
-};
-
-// const userAgents = [
-//   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36',
-//   'Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1',
-//   'Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)',
-//   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 Edg/87.0.664.75',
-//   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18363'
-// ]
-
-const options = {
-  headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'
-  }
-}
-
 const getProductsFromQRCode = async (text: string) => {
+  // TODO: realizar troca do proxy de forma automática posteriormente (comutador)
+  // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
+  const httpsAgent = new HttpsProxyAgent("http://200.174.198.86:8888");
+  const $ = axios.create({ httpsAgent });
   const uf = extractUF(text);
   const [url, chave] = parseURL(text, uf);
-  const products = await axios
-    .get(url, options)
-    .then((res) => extractProducts(res.data, uf));
+  const res = await $.get(url);
+  const products = extractProducts(res.data, uf);
   return [products, chave] as [ProductRecieptImport[], string];
 };
 
@@ -285,15 +274,16 @@ export const handleProducts = async (
   type: CaptureType,
   file: string | Record<string, never> | Record<string, never>[]
 ) => {
+  const record = typeof file === "object" ? (file as Record<string, any>) : {};
   let products: ProductRecieptImport[] = [],
     chavenfe = "",
     discount = 0,
     total = 0;
   switch (type) {
     case "json":
-      products = (
-        Array.isArray(file) ? file : (file as Record<string, any>).products
-      ).map(ProductRecieptImport.parse);
+      products = (Array.isArray(file) ? file : record.products).map(
+        ProductRecieptImport.parse
+      );
       break;
     case "xml": // TODO: Implementar posteriormente (Sem exemplo atualmente)
       products = [];
@@ -308,10 +298,11 @@ export const handleProducts = async (
       break;
   }
   discount = sum(products, "discount");
+  total = decimalSum(sum(products, "total"), -discount);
   return {
-    products,
     chavenfe,
+    products,
     discount,
-    total: decimalSum(sum(products, "total"), -discount),
+    total,
   };
 };

@@ -32,21 +32,28 @@ router.post("/products/capture/:type", async (req, res) => {
   try {
     const { type: t } = req.params;
     const type = t as CaptureType;
-    const { products, chavenfe, discount, total } = await handleProducts(type, req.body.content);
+    const { products, chavenfe, discount, total } = await handleProducts(
+      type,
+      req.body.content
+    );
     res.send({
       status: !!type,
       message: !type
         ? "O parâmetro :type é obrigatório na requisição"
         : "Produtos importados com sucesso!",
-      data: { 
+      data: {
         ...(chavenfe ? { chavenfe } : {}),
         discount,
         total,
-        products
+        products,
       },
     });
   } catch (e: any) {
-    res.send(databaseErrorResponse(e instanceof Error ? `${e.name}\n${e.message}\n${e.stack}`: ''));
+    res.send(
+      databaseErrorResponse(
+        e instanceof Error ? `${e.name}\n${e.message}\n${e.stack}` : ""
+      )
+    );
   }
 });
 
