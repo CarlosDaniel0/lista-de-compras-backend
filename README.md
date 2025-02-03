@@ -22,6 +22,28 @@ API utilizada pelo site de [Lista de Compras](https://github.com/CarlosDaniel0/l
 1 - Altere o arquivo .env.example para .env e substitua a `<database-url-connection>` por sua conexão com o
 banco de dados [PostgreSQL](https://www.postgresql.org/)
 
+2 - Também no arquivo .env substitua o `<brazillian-proxy>` por um proxy brasileiro para permitir requisições
+em um servidor de produção (Vercel, por exemplo). 
+Link que utilizei para buscar Proxies gratúitos no Brasil: [Proxy Scrape](https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos)
+
+> Essa configuração não é obrigatória no ambiente de desenvolvimento e pode ser removida alterando o arquivo `src\routes\reciept\tools.ts`:
+
+```diff
+const getProductsFromQRCode = async (text: string) => {
+  // TODO: realizar troca do proxy de forma automática posteriormente (comutador)
+  // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
+- const proxy = process.env.PROXY ?? ''
+- const httpsAgent = new HttpsProxyAgent(proxy);
+- const $ = axios.create({ httpsAgent });
+  const uf = extractUF(text);
+  const [url, chave] = parseURL(text, uf);
+- const res = await $.get(url);
++ const res = await axios.get(url);
+  const products = extractProducts(res.data, uf);
+  return [products, chave] as [ProductRecieptImport[], string];
+};
+```
+
 ### Recomendações de Bancos Relacionais
 
 - [Aiven](https://aiven.io/)
