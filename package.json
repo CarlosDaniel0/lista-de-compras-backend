@@ -1,4 +1,6 @@
 {
+  "name": "lista-de-compras-backend",
+  "version": "0.0.1",
   "scripts": {
     "copy-files": "copyfiles public/** dist/",
     "build": "node_modules/.bin/tsc && yarn copy-files",
