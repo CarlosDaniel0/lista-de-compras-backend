@@ -15,15 +15,5 @@ export const paths = {
     discount: "label:contains('Valor do Desconto').next()",
     price: "label:contains('Valor unitário de comercialização').next()", // or contains('Valor(R$)')
     total: "$total", // or 
-  },
-  PE: {
-    position: ["infNFe det", "attr('nItem')"],
-    description: "prod xProd",
-    barcode: "prod cEAN",
-    unity: "prod uCom",
-    quantity: "prod qCom", 
-    discount: "prod vDesc",
-    price: "prod vUnCom",
-    total: "prod vProd", // or prod vProd
-  },
+  }
 };

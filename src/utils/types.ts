@@ -29,7 +29,7 @@ export interface ProxyScape {
   ip_data_last_update: number;
   last_seen: number;
   port: number;
-  protocol: 'http'|'https';
+  protocol: "http" | "https";
   proxy: string;
   ssl: boolean;
   timeout: number;
@@ -39,11 +39,56 @@ export interface ProxyScape {
   ip: string;
 }
 
+export interface XMLProduct {
+  prod: {
+    cProd: number;
+    cEAN: number;
+    xProd: string;
+    NCM: number;
+    CEST: number;
+    CFOP: number;
+    uCom: string;
+    qCom: number;
+    vUnCom: number;
+    vDesc?: number;
+    vProd: number;
+    cEANTrib: number;
+    uTrib: string;
+    qTrib: number;
+    vUnTrib: number;
+    indTot: number;
+  };
+  imposto: {
+    ICMS: {
+      ICMS60: {
+        orig: number;
+        CST: number;
+      };
+    };
+    PIS: {
+      PISAliq: {
+        CST: number;
+        vBC: number;
+        pPIS: number;
+        vPIS: number;
+      };
+    };
+    COFINS: {
+      COFINSAliq: {
+        CST: number;
+        vBC: number;
+        pCOFINS: number;
+        vCOFINS: number;
+      };
+    };
+  };
+}
+
 export interface ProxyScapeResponse {
-  shown_records: number,
-  total_records: number,
-  limit: number,
-  skip: number,
-  nextpage: boolean,
-  proxies: ProxyScape[]
+  shown_records: number;
+  total_records: number;
+  limit: number;
+  skip: number;
+  nextpage: boolean;
+  proxies: ProxyScape[];
 }
