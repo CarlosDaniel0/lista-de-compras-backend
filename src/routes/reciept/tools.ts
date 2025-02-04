@@ -12,6 +12,7 @@ import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { paths } from "../../utils/constants";
 
 type ProductKeys = "position";
 const UFs = [
@@ -31,8 +32,8 @@ const UFs = [
   "PA",
   "PB",
   "PR",
-  "PE",
-  "PI",
+  "PE", // OK
+  "PI", // OK
   "RJ",
   "RN",
   "RS",
@@ -186,67 +187,99 @@ const parseProductsFromTXT = (text: string) => {
     }, [] as ProductRecieptImport[]);
 };
 
+const getCheerioParams = (value: string) => {
+  if (/(?<=\.)(\w+)\(\)/g.test(value)) {
+    const fn = value.match(/(?<=\.)(\w+)\(\)/g)?.[0] ?? "";
+    return [value.replace(`.${fn}`, ""), fn];
+  }
+  return [value, ""];
+};
+
+const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI" | "PE"]) =>
+  Object.entries(path)
+    .filter(([, path]) => !path.includes("$"))
+    .map(([key, p]) => {
+      const [path, fn] = Array.isArray(p) ? p : [p, ""];
+      let value: (string | number)[] = [];
+      try {
+        const [item, func] = getCheerioParams(path);
+        const isNumber = ['price', 'quantity', 'discount', 'total'].includes(key)
+        const exec = `$("${item}")${func ? `.${func}` : ''}`
+        const elements = eval(exec) as cheerio.Cheerio<Element>;
+        value = elements
+          .toArray()
+          .map((x) => {
+            let v = "";
+            try {
+              v = eval(`$(x).${fn || "text()"}`);
+            } catch (e) {
+              const error =
+                e instanceof Error ? e : { message: "", stack: "", cause: "" };
+              console.error(
+                `Error in Field Value\n${error.message}\ncause: ${error.cause}\ndetail: ${error.stack}`
+              );
+            }
+
+            return isNumber && v.includes(',')
+              ? parseCurrencyToNumber(v || "0,00")
+              : key === "position" || (isNumber && !v.includes(','))
+              ? Number(v || "0")
+              : v;
+          });
+      } catch (e) {
+        const error =
+          e instanceof Error ? e : { message: "", stack: "", cause: "" };
+        console.error(
+          `General Error\n${error.message}\ncause: ${error.cause}\ndetail: ${error.stack}`
+        );
+      }
+      return [key, value];
+    })
+    .reduce((acc, item, index, arr) => {
+      const [key, values] = item as [ProductKeys, any[]];
+      values.forEach((value, i) => {
+        if (acc[i]) {
+          acc[i][key] = value;
+          if (arr.length - 1 === index && path.total.includes('$'))
+            acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
+        } else acc.push({ [key]: value } as never);
+      });
+      return acc;
+    }, [] as ProductRecieptImport[]);
+
 const extractProducts = (res: Record<string, string> | string, uf: UF) => {
-  const paths = {
-    PI: {
-      position: "label:contains('Num.')",
-      description: "label:contains('Descrição')",
-      barcode: "label:contains('Código EAN Comercial')",
-      unity: "label:contains('Unidade Tributável')", // ou contains('Unidade Comercial')
-      quantity: "label:contains('Quantidade Tributável')", // or contains('Qtd.')
-      price: "label:contains('Valor unitário de comercialização')", // or contains('Valor(R$)')
-      total: "$total",
-    },
-  };
+  let $: cheerio.CheerioAPI | null = null;
   switch (uf) {
     case "PI":
       const html =
         (res as Record<string, string>)?.abaProdutosServicosHtml ?? "";
-      const $ = cheerio.load(html);
-      return Object.entries(paths[uf])
-        .filter(([, path]) => !path.includes("$"))
-        .map(([key, path]) => [
-          key,
-          $(path)
-            .next()
-            .toArray()
-            .map((x) => {
-              const v = $(x).text()
-              return ["price", "quantity"].includes(key) ? parseCurrencyToNumber(v) : key === "position" ? Number(v) : v
-            }),
-        ])
-        .reduce((acc, item, index, arr) => {
-          const [key, values] = item as [ProductKeys, any[]];
-          values.forEach((value, i) => {
-            if (acc[i]) {
-              acc[i][key] = value;
-              if (arr.length - 1 === index)
-                acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
-            } else acc.push({ [key]: value } as never);
-          });
-          return acc;
-        }, [] as ProductRecieptImport[]);
+      $ = cheerio.load(html);
+      return getContent($!, paths[uf]);
+    case "PE":
+      $ = cheerio.load(res + "", { xml: true });
+      return getContent($!, paths[uf]);
   }
   return [];
 };
 
 const parseURL = (url: string, uf: UF) => {
   const parsedURL = new URL(url);
+  const [chave, , , data, total] = (
+    parsedURL.searchParams.get("p") ?? ""
+  ).split("|");
   switch (uf) {
     case "PI":
-      const [chave, , , data, total] = (
-        parsedURL.searchParams.get("p") ?? ""
-      ).split("|");
       const search = new URLSearchParams();
       search.append("chave", chave);
       if (data && !Number.isNaN(Number(data))) search.append("data", data);
       if (total && !Number.isNaN(Number(total) && total.length !== 44))
         search.append("total", total);
-
       return [
         `https://www.sefaz.pi.gov.br/nfce/api/consultaInfoChave?${search + ""}`,
         chave,
       ];
+    case "PE":
+      return [url, chave];
     default:
       throw new Error(`Não há função de extração para a UF: ${uf}`);
   }
@@ -264,13 +297,17 @@ const getProductsFromQRCode = async (text: string) => {
   // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
   try {
     const proxy = process.env.PROXY;
-    const httpsAgent = new HttpsProxyAgent(proxy ?? "", {
-      rejectUnauthorized: false,
-    });
-    const $ = axios.create({ httpsAgent });
+
     const uf = extractUF(text);
     const [url, chave] = parseURL(text, uf);
-    const res = await $.get(url);
+    const needProxy = ["PI"].includes(uf);
+    const $ = needProxy ? (() => {
+      const httpsAgent = new HttpsProxyAgent(proxy ?? "", {
+          rejectUnauthorized: false,
+        });
+      return axios.create({ httpsAgent })
+    })() : null;
+    const res = needProxy && $ ? await $.get(url) : await axios.get(url);
     const products = extractProducts(res.data, uf);
     return [products, chave] as [ProductRecieptImport[], string];
   } catch (e) {
