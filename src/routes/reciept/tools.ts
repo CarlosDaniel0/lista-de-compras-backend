@@ -13,6 +13,8 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { paths } from "../../utils/constants";
+import { XMLParser } from "fast-xml-parser";
+import { XMLProduct } from "../../utils/types";
 
 type ProductKeys = "position";
 const UFs = [
@@ -47,6 +49,7 @@ const UFs = [
 
 type UF = (typeof UFs)[number];
 export type CaptureType = "json" | "xml" | "txt" | "qrcode" | "ocr";
+
 export const handleImport = async (rec: RecieptImport) => {
   const prisma = new PrismaClient({ adapter });
 
@@ -147,6 +150,31 @@ export const handleImport = async (rec: RecieptImport) => {
   return null;
 };
 
+const parseProductsFromXML = (text: string) => {
+  const parser = new XMLParser();
+  const xml = parser.parse(text);
+
+  try {
+    return (xml.nfeProc.proc.nfeProc.NFe.infNFe.det as XMLProduct[]).map(({ prod }, i) => ({
+      position: i + 1,
+      description: prod.xProd,
+      barcode: prod.cEAN.toString().padStart(14, '0'),
+      unity: prod.uCom,
+      quantity: prod.qCom,
+      discount: prod?.vDesc ?? 0,
+      price: prod.vUnCom,
+      total: prod.vProd,
+    }) as ProductRecieptImport);
+  } catch (e) {
+    const error =
+      e instanceof Error ? e : { message: "", stack: "", cause: "" };
+    console.error(
+      `Error\n${error.message}\ncause: ${error.cause}\ndetail: ${error.stack}`
+    );
+    throw new Error("Não foi possível capturar os produtos para o XML fornecido");
+  }
+};
+
 const parseProductsFromTXT = (text: string) => {
   let index = 0;
   const lines = text.split("\n");
@@ -195,7 +223,7 @@ const getCheerioParams = (value: string) => {
   return [value, ""];
 };
 
-const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI" | "PE"]) =>
+const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI"]) =>
   Object.entries(path)
     .filter(([, path]) => !path.includes("$"))
     .map(([key, p]) => {
@@ -203,29 +231,29 @@ const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI" | "PE"]) =>
       let value: (string | number)[] = [];
       try {
         const [item, func] = getCheerioParams(path);
-        const isNumber = ['price', 'quantity', 'discount', 'total'].includes(key)
-        const exec = `$("${item}")${func ? `.${func}` : ''}`
+        const isNumber = ["price", "quantity", "discount", "total"].includes(
+          key
+        );
+        const exec = `$("${item}")${func ? `.${func}` : ""}`;
         const elements = eval(exec) as cheerio.Cheerio<Element>;
-        value = elements
-          .toArray()
-          .map((x) => {
-            let v = "";
-            try {
-              v = eval(`$(x).${fn || "text()"}`);
-            } catch (e) {
-              const error =
-                e instanceof Error ? e : { message: "", stack: "", cause: "" };
-              console.error(
-                `Error in Field Value\n${error.message}\ncause: ${error.cause}\ndetail: ${error.stack}`
-              );
-            }
+        value = elements.toArray().map((x) => {
+          let v = "";
+          try {
+            v = eval(`$(x).${fn || "text()"}`);
+          } catch (e) {
+            const error =
+              e instanceof Error ? e : { message: "", stack: "", cause: "" };
+            console.error(
+              `Error in Field Value\n${error.message}\ncause: ${error.cause}\ndetail: ${error.stack}`
+            );
+          }
 
-            return isNumber && v.includes(',')
-              ? parseCurrencyToNumber(v || "0,00")
-              : key === "position" || (isNumber && !v.includes(','))
-              ? Number(v || "0")
-              : v;
-          });
+          return isNumber && v.includes(",")
+            ? parseCurrencyToNumber(v || "0,00")
+            : key === "position" || (isNumber && !v.includes(","))
+            ? Number(v || "0")
+            : v;
+        });
       } catch (e) {
         const error =
           e instanceof Error ? e : { message: "", stack: "", cause: "" };
@@ -240,7 +268,7 @@ const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI" | "PE"]) =>
       values.forEach((value, i) => {
         if (acc[i]) {
           acc[i][key] = value;
-          if (arr.length - 1 === index && path.total.includes('$'))
+          if (arr.length - 1 === index && path.total.includes("$"))
             acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
         } else acc.push({ [key]: value } as never);
       });
@@ -256,8 +284,7 @@ const extractProducts = (res: Record<string, string> | string, uf: UF) => {
       $ = cheerio.load(html);
       return getContent($!, paths[uf]);
     case "PE":
-      $ = cheerio.load(res + "", { xml: true });
-      return getContent($!, paths[uf]);
+      return parseProductsFromXML(res + "");
   }
   return [];
 };
@@ -297,22 +324,36 @@ const getProductsFromQRCode = async (text: string) => {
   // Site com proxies gratuitos -> https://pt-br.proxyscrape.com/lista-de-procuradores-gratuitos
   try {
     const proxy = process.env.PROXY;
-
     const uf = extractUF(text);
     const [url, chave] = parseURL(text, uf);
     const needProxy = ["PI"].includes(uf);
-    const $ = needProxy ? (() => {
-      const httpsAgent = new HttpsProxyAgent(proxy ?? "", {
-          rejectUnauthorized: false,
-        });
-      return axios.create({ httpsAgent })
-    })() : null;
+    const $ = needProxy
+      ? (() => {
+          const httpsAgent = new HttpsProxyAgent(proxy ?? "", {
+            rejectUnauthorized: false,
+          });
+          return axios.create({ httpsAgent });
+        })()
+      : null;
     const res = needProxy && $ ? await $.get(url) : await axios.get(url);
     const products = extractProducts(res.data, uf);
     return [products, chave] as [ProductRecieptImport[], string];
   } catch (e) {
-    throw new Error(`Ocorreu um erro no proxy
-      Aguarde antes de tentar novamente`);
+    const error =
+      e instanceof Error ? e : { message: "", stack: "", cause: "" };
+    const proxyError = ["proxy"].some((err) =>
+      error?.message?.toLocaleLowerCase()?.includes(err)
+    );
+    const connectionError = ["connect etimedout"].some((err) =>
+      error?.message?.toLocaleLowerCase()?.includes(err)
+    );
+    throw new Error(
+      connectionError
+        ? "Sefaz está indisponível no momento\nTente novamente mais tarde"
+        : proxyError
+        ? `Ocorreu um erro no proxy\nAguarde antes de tentar novamente`
+        : `Erro desconhecido\n${error?.message ?? ""}`
+    );
   }
 };
 
@@ -331,8 +372,8 @@ export const handleProducts = async (
         ProductRecieptImport.parse
       );
       break;
-    case "xml": // TODO: Implementar posteriormente (Sem exemplo atualmente)
-      products = [];
+    case "xml":
+      products = parseProductsFromXML(file + "");
       break;
     case "txt":
       products = parseProductsFromTXT(file + "");
