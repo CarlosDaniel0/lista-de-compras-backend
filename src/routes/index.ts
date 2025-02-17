@@ -3,6 +3,7 @@ import reciept from './reciept'
 import supermarket from './supermarket'
 import list from './list'
 import auth from './auth'
+import core from './core'
 
 const router = express.Router()
 
@@ -14,5 +15,6 @@ router.use('/auth', auth)
 router.use('/lists', list)
 router.use('/reciepts', reciept)
 router.use('/supermarkets', supermarket)
+router.use('/core', core)
 
 export default router
