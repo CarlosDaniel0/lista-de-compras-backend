@@ -10,10 +10,11 @@ export const paths = {
     position: "label:contains('Num.').next()",
     description: "label:contains('Descrição').next()",
     barcode: "label:contains('Código EAN Comercial').next()",
+    code: "label:contains('Código do Produto').next()",
     unity: "label:contains('Unidade Tributável').next()", // ou contains('Unidade Comercial')
     quantity: "label:contains('Quantidade Tributável').next()", // or contains('Qtd.')
     discount: "label:contains('Valor do Desconto').next()",
     price: "label:contains('Valor unitário de comercialização').next()", // or contains('Valor(R$)')
-    total: "$total", // or 
+    total: "label.label-mobile:contains('Valor(R$)').next()", // or 
   }
 };

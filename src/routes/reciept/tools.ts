@@ -12,11 +12,11 @@ import { ProductRecieptImport } from "../../entities/ProductRecieptImport";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import { paths } from "../../utils/constants";
+import { DEBUG, paths } from "../../utils/constants";
 import { XMLParser } from "fast-xml-parser";
 import { XMLProduct } from "../../utils/types";
 
-type ProductKeys = "position";
+type ProductKeys = "position" | "description" | "barcode" | "code" | "unity" | "quantity" | "discount" | "price" | "total"
 const UFs = [
   "AC",
   "AL",
@@ -155,23 +155,28 @@ const parseProductsFromXML = (text: string) => {
   const xml = parser.parse(text);
 
   try {
-    return (xml.nfeProc.proc.nfeProc.NFe.infNFe.det as XMLProduct[]).map(({ prod }, i) => ({
-      position: i + 1,
-      description: prod.xProd,
-      barcode: prod.cEAN.toString().padStart(14, '0'),
-      unity: prod.uCom,
-      quantity: prod.qCom,
-      discount: prod?.vDesc ?? 0,
-      price: prod.vUnCom,
-      total: prod.vProd,
-    }) as ProductRecieptImport);
+    return (xml.nfeProc.proc.nfeProc.NFe.infNFe.det as XMLProduct[]).map(
+      ({ prod }, i) =>
+        ({
+          position: i + 1,
+          description: prod.xProd,
+          barcode: prod.cEAN.toString().padStart(14, "0"),
+          unity: prod.uCom,
+          quantity: prod.qCom,
+          discount: prod?.vDesc ?? 0,
+          price: prod.vUnCom,
+          total: prod.vProd,
+        } as ProductRecieptImport)
+    );
   } catch (e) {
     const error =
       e instanceof Error ? e : { message: "", stack: "", cause: "" };
     console.error(
       `Error\n${error.message}\ncause: ${error.cause}\ndetail: ${error.stack}`
     );
-    throw new Error("Não foi possível capturar os produtos para o XML fornecido");
+    throw new Error(
+      "Não foi possível capturar os produtos para o XML fornecido"
+    );
   }
 };
 
@@ -209,7 +214,7 @@ const parseProductsFromTXT = (text: string) => {
         acc[index].unity = line![0].replace(/[0-9.]/g, "");
         acc[index].price = parseFloat(line?.[1] ?? "0");
         if (discount) acc[index].discount = discount;
-        acc[index].total = +(acc[index].quantity * acc[index].price).toFixed(2);
+        acc[index].total = parseFloat(line?.[2] ?? "0");
       }
       return acc;
     }, [] as ProductRecieptImport[]);
@@ -225,7 +230,6 @@ const getCheerioParams = (value: string) => {
 
 const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI"]) =>
   Object.entries(path)
-    .filter(([, path]) => !path.includes("$"))
     .map(([key, p]) => {
       const [path, fn] = Array.isArray(p) ? p : [p, ""];
       let value: (string | number)[] = [];
@@ -263,14 +267,20 @@ const getContent = ($: cheerio.CheerioAPI, path: (typeof paths)["PI"]) =>
       }
       return [key, value];
     })
-    .reduce((acc, item, index, arr) => {
+    .reduce((acc, item, __, arr) => {
       const [key, values] = item as [ProductKeys, any[]];
+      if (["barcode"].includes(key)) {
+        const codes = arr.find((el) => el[0] === "code");
+        acc.push([key, values.map((v, i) => (!/\D/g.test(v) ? v : codes?.[1]?.[i]))]);
+      }
+      else if (key !== "code") acc.push(item as [ProductKeys, any[]]);
+      return acc;
+    }, [] as [ProductKeys, any[]][])
+    .reduce((acc, item) => {
+      const [key, values] = item;
       values.forEach((value, i) => {
-        if (acc[i]) {
-          acc[i][key] = value;
-          if (arr.length - 1 === index && path.total.includes("$"))
-            acc[i].total = +(acc[i].quantity * acc[i].price).toFixed(2);
-        } else acc.push({ [key]: value } as never);
+        if (acc[i] && key !== 'code') acc[i][key] = value as never;
+        else acc.push({ [key]: value } as never);
       });
       return acc;
     }, [] as ProductRecieptImport[]);
@@ -326,7 +336,7 @@ const getProductsFromQRCode = async (text: string) => {
     const proxy = process.env.PROXY;
     const uf = extractUF(text);
     const [url, chave] = parseURL(text, uf);
-    const needProxy = ["PI"].includes(uf);
+    const needProxy = ["PI"].includes(uf) && !DEBUG;
     const $ = needProxy
       ? (() => {
           const httpsAgent = new HttpsProxyAgent(proxy ?? "", {
