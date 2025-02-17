@@ -143,3 +143,8 @@ export const aggregateByKey = <T>(arr: T[], field: keyof T) => {
   arr.forEach((item) => map.set(String(item[field]), item));
   return Array.from(map.values()) as T[];
 };
+
+export const currency = Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})

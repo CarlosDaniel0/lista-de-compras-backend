@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import adapter from "../../database/prisma";
 import {
   aggregateByKey,
+  currency,
   decimalSum,
   parseCurrencyToNumber,
   sum,
@@ -15,6 +16,7 @@ import * as cheerio from "cheerio";
 import { DEBUG, paths } from "../../utils/constants";
 import { XMLParser } from "fast-xml-parser";
 import { XMLProduct } from "../../utils/types";
+import { format } from "date-fns";
 
 type ProductKeys = "position" | "description" | "barcode" | "code" | "unity" | "quantity" | "discount" | "price" | "total"
 const UFs = [
@@ -62,6 +64,16 @@ export const handleImport = async (rec: RecieptImport) => {
     name,
     user_id,
   } = rec;
+
+  const currentReciept = await prisma.reciept.findFirst({
+    where: { 
+      discount,
+      total,
+      date
+    }
+  })
+  if (currentReciept !== null)
+    throw new Error(`Comprovante ${currentReciept?.name} encontrado!\nData: ${format(new Date(currentReciept?.date ?? Date.now), 'dd/MM/yyyy')}\nValor: ${currency.format(Number(currentReciept?.total ?? 0))}`)
 
   const supermarket = await prisma.supermarket.findFirst({
     where: { id },
