@@ -1,9 +1,10 @@
 import { PrismaClient } from "@prisma/client";
 import adapter from "../../database/prisma";
 import express from "express";
-import { databaseErrorResponse } from "../../utils/constants";
+import { databaseErrorResponse, DEBUG } from "../../utils/constants";
 import fs from 'fs'
 import { join } from "path";
+import { tmpdir } from "os";
 const router = express.Router();
 
 router.get("/export", async (req, res) => {
@@ -48,7 +49,8 @@ router.get("/export", async (req, res) => {
         productReciept,
       })
 
-      const path = join(__dirname, 'data.json')
+
+      const path = join(tmpdir(), 'data.json')
       fs.writeFileSync(path, content)
       const fileSize = fs.statSync(path).size; 
       res.header('Content-Type', 'application/octet-stream');
