@@ -17,7 +17,7 @@ export class ProductSupermarket {
     id: string,
     description: string,
     unity: string,
-    category: string,
+    category: string = '',
     barcode: string = "",
     price: number,
     last_update: string,
@@ -52,7 +52,6 @@ export class ProductSupermarket {
     } = json;
     if (!description) throw new Error("O campo description é obrigatório");
     if (!unity) throw new Error("O campo unity é obrigatório");
-    if (!category) throw new Error("O campo category é obrigatório");
     if (!barcode) throw new Error("O campo barcode é obrigatório");
     if (typeof price !== "number" && Number.isNaN(Number(price)))
       throw new Error("O campo price é obrigatório");
