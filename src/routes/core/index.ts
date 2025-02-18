@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import adapter from "../../database/prisma";
 import express from "express";
-import { databaseErrorResponse, DEBUG } from "../../utils/constants";
+import { databaseErrorResponse } from "../../utils/constants";
 import fs from 'fs'
 import { join } from "path";
 import { tmpdir } from "os";
@@ -48,7 +48,6 @@ router.get("/export", async (req, res) => {
         productList,
         productReciept,
       })
-
 
       const path = join(tmpdir(), 'data.json')
       fs.writeFileSync(path, content)
