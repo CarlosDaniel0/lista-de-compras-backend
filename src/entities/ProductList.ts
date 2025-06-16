@@ -8,6 +8,8 @@ export class ProductList {
   unity: string;
   quantity: number;
   list_id: string;
+  price?: number;
+  registered_product?: boolean
   product_id?: string;
   supermarket_id?: string;
   list?: List;
@@ -20,6 +22,8 @@ export class ProductList {
     unity: string,
     quantity: number,
     list_id: string,
+    price?: number,
+    registered_product?: boolean,
     product_id?: string,
     supermarket_id?: string,
     list?: Record<string, any>,
@@ -31,6 +35,8 @@ export class ProductList {
     this.unity = unity;
     this.quantity = quantity;
     this.list_id = list_id;
+    this.price = price;
+    this.registered_product = registered_product;
     if (product_id) this.product_id = product_id;
     if (supermarket_id) this.supermarket_id = supermarket_id;
     if (list) this.list = List.parse(list);
@@ -39,13 +45,13 @@ export class ProductList {
   }
 
   static parse(json: Record<string, any>) {
-    const { id, description, unity, quantity, list_id, product_id, supermarket_id, list, product, supermarket } = json;
+    const { id, description, unity, quantity, list_id, price, registered_product, product_id, supermarket_id, list, product, supermarket } = json;
     if (!description) throw new Error("O campo description é obrigatório");
     if (!unity) throw new Error("O campo unity é obrigatório");
     if (typeof quantity !== "number" && Number.isNaN(Number(quantity)))
       throw new Error("O campo quantity é obrigatório");
     if (!list_id) throw new Error("O campo list_id é obrigatório");
-    return new ProductList(id, description, unity, quantity, list_id, product_id, supermarket_id, list, product, supermarket);
+    return new ProductList(id, description, unity, quantity, list_id, price, registered_product, product_id, supermarket_id, list, product, supermarket);
   }
 
   toEntity() {
@@ -54,6 +60,8 @@ export class ProductList {
       description: this.description,
       unity: this.unity,
       quantity: this.quantity,
+      price: this.price,
+      registered_product: this.registered_product,
       list_id: this.list_id,
       product_id: this.product_id,
       supermarket_id: this.supermarket_id

@@ -53,16 +53,18 @@ model List {
 }
 
 model ProductList {
-  id             String              @id @default(uuid())
-  description    String
-  unity          String?
-  quantity       Decimal             @db.Decimal(10, 4)
-  list_id        String
-  product_id     String?
-  supermarket_id String?
-  product        ProductSupermarket? @relation(fields: [product_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  supermarket    Supermarket?        @relation(fields: [supermarket_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  list           List                @relation(fields: [list_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id                 String              @id @default(uuid())
+  description        String
+  unity              String?
+  quantity           Decimal             @db.Decimal(10, 4)
+  price              Decimal?            @db.Decimal(10, 2)
+  registered_product Boolean?            @default(false)
+  list_id            String
+  product_id         String?
+  supermarket_id     String?
+  product            ProductSupermarket? @relation(fields: [product_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  supermarket        Supermarket?        @relation(fields: [supermarket_id], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  list               List                @relation(fields: [list_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 //  Receita
