@@ -43,6 +43,7 @@ router.post("/products/capture/:type", async (req, res) => {
         : "Produtos importados com sucesso!",
       data: {
         ...(chavenfe ? { chavenfe } : {}),
+        barcode: true,
         discount,
         total,
         products,
